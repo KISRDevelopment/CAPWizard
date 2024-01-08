@@ -1,0 +1,13 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+.env
+Icon
+Icon?
+
+
+__pycache__/
+venv/
+dist/
+build/
+*.spec

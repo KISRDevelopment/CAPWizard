@@ -1,0 +1,80 @@
+import pandas as pd
+import Utils.Helper as Helper
+
+
+def enrich_with_template(tables_dict, tmpt_df):
+    tables_dict = tables_dict.copy()
+    columns_to_add = ['tech_activity', 'tech_status', 'tech_name']
+
+    for key in tables_dict:
+        # Enrich with network_db data
+        for col in columns_to_add:
+            lookup = dict(zip(tmpt_df['tech_code'], tmpt_df[col]))
+            tables_dict[key] = tables_dict[key].copy()
+            tables_dict[key].insert(1, col, tables_dict[key]['tech_code'])
+            tables_dict[key][col] = tables_dict[key][col].apply(Helper.extract_base_tech_code)
+            tables_dict[key].loc[:, col] = tables_dict[key][col].replace(lookup)
+
+        # Enrich with gen_type
+        insert_idx = tables_dict[key].columns.get_loc('tech_activity')
+        gen_type_map = dict(zip(tmpt_df['tech_name'], tmpt_df['gen_type']))
+        tables_dict[key].insert(insert_idx + 1, 'gen_type', tables_dict[key]['tech_name'].map(gen_type_map))
+
+    return tables_dict
+
+
+def enrich_with_adb(adb_df, tables_dict):
+    tables_dict = tables_dict.copy()
+    adb_df = adb_df.copy()
+
+    adb_df['adb_join_code'] = adb_df['level_code'].astype(str) + adb_df['form_code'].astype(str)
+    for key in tables_dict:
+        merged_df = pd.merge(
+            tables_dict[key].astype({'tech_code': str, 'adb_join_code': str}),
+            adb_df.astype({'tech_code': str, 'adb_join_code': str}),
+            on=['tech_code', 'adb_join_code'],
+            how='left'
+        )
+        merged_df = merged_df.drop(['adb_join_code', 'output_code'], axis=1)
+        tables_dict[key] = Helper.reorder_dataframe(merged_df)
+
+    return tables_dict
+
+
+def enrich_with_ldr(tables_dict, ldr_df):
+    tables_dict = tables_dict.copy()
+    ldr_df = ldr_df.copy()
+
+    ldr_df['extra_join_code'] = ldr_df['ts_code'].astype(str)
+    for key in tables_dict:
+        if 'extra_join_code' in list(tables_dict[key].columns):
+            merged_df = pd.merge(
+                tables_dict[key].astype({'extra_join_code': str}),
+                ldr_df.astype({'extra_join_code': str}),
+                on=['extra_join_code'],
+                how='left'
+            )
+            merged_df = merged_df.drop(['extra_join_code'], axis=1)
+            tables_dict[key] = Helper.reorder_dataframe(merged_df)
+
+    return tables_dict
+
+
+def embed_LDR_hour_and_type(tables_dict, slice_types):
+    tables_dict = tables_dict.copy()
+    slice_types = slice_types.iloc[:,0].tolist()
+    num_types = len(slice_types)
+
+    for key in tables_dict:
+        tbl = tables_dict[key].copy()
+
+        # for each tech_code in tbl, add an index column so that I have it numbered
+        tbl['slice'] = (tbl.groupby('tech_code').cumcount() / num_types).astype(int)
+        tbl['slice_time'] = (tbl['slice'] * 2).astype(str) + '-' + ((tbl['slice'] * 2) + 1).astype(str)
+
+        # add another column goes from 0 to 2 and repeats until the last one
+        tbl['slice_type'] = tbl.groupby('tech_code').cumcount() % num_types
+        tbl['slice_type'] = tbl['slice_type'].apply(lambda x: slice_types[x])
+
+        tables_dict[key] = Helper.reorder_dataframe(tbl)
+    return tables_dict

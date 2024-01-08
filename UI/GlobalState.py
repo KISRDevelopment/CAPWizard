@@ -1,0 +1,1 @@
+is_process_running = False
