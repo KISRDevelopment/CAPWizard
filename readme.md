@@ -1,5 +1,9 @@
 # CAPWizard for IAEA MESSAGE
 
+<p align="center">
+    <img src="./Icon/logo.png" alt="CAPWizard logo" width="300"/>
+</p>
+
 ## Overview
 CAPWizard for IAEA MESSAGE is a sophisticated tool developed to address specific calculation complexities in the IAEA MESSAGE tool. This tool is instrumental in generating calculation applications that overcome challenges related to total installed capacity and fixed costs, particularly when plant lifespans don't align with the study years of the application. CAPWizard automates the creation of Tech and LDR CAP files, facilitating the processing of results into formats that enrich the data beyond what is available in standard MESSAGE outputs. This enriched data allows for advanced analysis and visualization in MS Excel, including the use of pivot tables with extensive filtering options.
 
