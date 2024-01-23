@@ -27,9 +27,10 @@ def process_result_sheet(filepath, sheet, tmpt_df, slice_types, adb_df, ldr_df, 
         balance_out_tables_dict = Analyzer.calc_tech_balance(balance_tables_dict)
         # resulted_tables_dict = Analyzer.calc_emissions(balance_out_tables_dict)
         resulted_tables_dict = balance_out_tables_dict
-        
+
     transformed_tables_dict = Transformer.transform_tables(resulted_tables_dict)
-    converted_tables_dict = Transformer.convert_MWyr_to_Mtoe(transformed_tables_dict, convert_all=is_LDR)
+    with_units_tables_dict = Enricher.add_units_column(transformed_tables_dict)
+    converted_tables_dict = Enricher.add_Mtoe_value(with_units_tables_dict, convert_all=is_LDR)
     return converted_tables_dict
 
 

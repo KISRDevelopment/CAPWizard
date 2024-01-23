@@ -135,13 +135,3 @@ def transform_tables(df_dict):
             trf_df[tbl] = df_dict[tbl].melt(id_vars=cols, var_name="year", value_name="value")
 
     return trf_df
-
-
-def convert_MWyr_to_Mtoe(tables_dict, convert_all=False):
-    tables_dict = tables_dict.copy()
-    for key in tables_dict:
-        if not convert_all:
-            if '_LDR' not in key and key != 'Tech_in_out':
-                continue
-        tables_dict[key]['Mtoe'] = tables_dict[key]['value'] * 8760/(11.63*1e6)
-    return tables_dict

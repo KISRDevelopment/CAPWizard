@@ -189,7 +189,7 @@ def Tech_CAP_generation_process(adb_file, nrun, cin_file_name = 'Tech_CAP.cin'):
                             exclude_secondary_op_modes=False,
                             eqn_func=lambda row: f"{row['tech_code']}___{row['level_code']}{row['form_code']} = {row['full_code']}:vom * {row['full_code']}:out"),
          generate_cap_table(title='Fixed_cost_per_unit_of_output',
-                            units='USD/kWyr',
+                            units='USD/kW/yr',
                             adb_df=adb_df,
                             only_output=True,
                             exclude_secondary_op_modes=True,

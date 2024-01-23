@@ -78,3 +78,39 @@ def embed_LDR_hour_and_type(tables_dict, slice_types):
 
         tables_dict[key] = Helper.reorder_dataframe(tbl)
     return tables_dict
+
+
+def add_units_column(tables_dict):
+    tables_dict = tables_dict.copy()
+    units_dicts = {
+        'Objective': 'USD',
+        'Tech_in_out': 'MWyr',
+        'Total_installed_cap': 'MW',
+        'New_installed_cap': 'MW',
+        'Investments_per_unit': 'USD/kW',
+        'Investments_for_new_installations': 'kUSD',
+        'Variable_cost_per_unit_of_output': 'USD/kWyr',
+        'Variable_cost': 'kUSD',
+        'Fixed_cost_per_unit_of_output': 'USD/kW/yr',
+        'Fixed_cost': 'kUSD',
+        'Tech_balance': 'MWyr',
+        'Emissions': 'ktons',
+        'LDR': 'MWyr',
+    }
+    for key in tables_dict:
+        if key in units_dicts.keys():
+            tables_dict[key]['units'] = units_dicts[key]
+        elif 'szn' in key:
+            tables_dict[key]['units'] = units_dicts['LDR']
+    return tables_dict
+
+
+# converts MWyr value column to Mtoe in a new column
+def add_Mtoe_value(tables_dict, convert_all=False):
+    tables_dict = tables_dict.copy()
+    for key in tables_dict:
+        if not convert_all:
+            if '_LDR' not in key and key != 'Tech_in_out':
+                continue
+        tables_dict[key]['Mtoe'] = tables_dict[key]['value'] * 8760/(11.63*1e6)
+    return tables_dict
