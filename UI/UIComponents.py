@@ -45,8 +45,8 @@ def disable_buttons(root):
 def create_ui(root):
 
     # Title Label
-    title_label = ttk.Label(root, text="CAPWizard", font=("Helvetica", 32))
-    title_label.pack(pady=10)
+    title_label = ttk.Label(root, text="CAP Wizard", font=("Helvetica", 32))
+    title_label.pack(pady=(10, 5))
 
     # Section 1
     section1_frame = ttk.Frame(root)
@@ -83,13 +83,13 @@ def create_ui(root):
 
     adb_frame.pack(side=ttk.LEFT, padx=10, fill='x', expand=True)
     nrun_frame.pack(side=ttk.LEFT, padx=10)
-    file_selection_frame.pack(padx=5, pady=(10,5), fill='x', expand=True)
+    file_selection_frame.pack(padx=5, pady=5, fill='x', expand=True)
     output_dir_frame.pack(padx=10, pady=5, fill="x", expand=True)
     section1_frame.pack(padx=5, pady=5, fill="x", expand=True)
 
     # Seperator between sections
     sep_line = ttk.Separator()
-    sep_line.pack(pady= 10, fill="x", expand=True)
+    sep_line.pack(pady= 5, fill="x", expand=True)
 
     # Section 2
     section2_frame = ttk.Frame(root)
@@ -124,7 +124,7 @@ def create_ui(root):
 
     # Seperator between sections
     sep_line = ttk.Separator()
-    sep_line.pack(pady= 10, fill="x", expand=True)
+    sep_line.pack(pady= 5, fill="x", expand=True)
 
     # Section 3
     section3_frame = ttk.Frame(root)
@@ -164,6 +164,10 @@ def create_ui(root):
     interpolate_var = ttk.BooleanVar()
     interpolate_check = ttk.Checkbutton(results_frame, text="Interpolate", variable=interpolate_var)
 
+    # with cost calculation Checkbox
+    with_cost_var = ttk.BooleanVar()
+    with_cost_check = ttk.Checkbutton(results_frame, text="Cost Calculations", variable=with_cost_var)
+
     # Output Filename Entry
     output_filename_frame = ttk.Frame(results_frame)
     output_filename_label = ttk.Label(output_filename_frame, text="Output Filename:")
@@ -185,22 +189,24 @@ def create_ui(root):
                                                                                                    adb_entry,
                                                                                                    output_dir_entry,
                                                                                                    output_filename_entry,
-                                                                                                   interpolate_var),
+                                                                                                   interpolate_var,
+                                                                                                   with_cost_var),
                                      state=ttk.NORMAL if not GlobalState.is_process_running else ttk.DISABLED)
 
 
-    template_frame.pack(side=ttk.TOP, padx=10, pady=10, fill='x', expand=True)
-    tech_results_frame.pack(side=ttk.TOP, padx=10, pady=10, fill='x', expand=True)
-    ldr_results_frame.pack(side=ttk.TOP, padx=10, pady=10, fill='x', expand=True)
-    interpolate_check.pack(side=ttk.TOP, pady=10)
-    output_filename_frame.pack(side=ttk.TOP, padx=10, pady=10, fill='x', expand=True)
+    template_frame.pack(side=ttk.TOP, padx=10, pady=5, fill='x', expand=True)
+    tech_results_frame.pack(side=ttk.TOP, padx=10, pady=5, fill='x', expand=True)
+    ldr_results_frame.pack(side=ttk.TOP, padx=10, pady=5, fill='x', expand=True)
+    interpolate_check.pack(side=ttk.TOP, pady=5)
+    with_cost_check.pack(side=ttk.TOP, pady=5)
+    output_filename_frame.pack(side=ttk.TOP, padx=10, pady=5, fill='x', expand=True)
     root.process_button.pack(pady=5)
     results_frame.pack(side=ttk.TOP, padx=10, pady=5, fill='x', expand=True)
     section3_frame.pack(padx=5, pady=5, fill="x", expand=True)
 
     # Seperator between sections
     sep_line = ttk.Separator()
-    sep_line.pack(pady= 10, fill="x", expand=True)
+    sep_line.pack(pady= 5, fill="x", expand=True)
 
 
     # Progress Bar and Timer
@@ -211,18 +217,18 @@ def create_ui(root):
     progress_bar.pack(fill='x', expand=True)
     progress_label.pack()
     time_label.pack()
-    progress_frame.pack(padx=10, pady=(5,10), fill='x', expand=True)
+    progress_frame.pack(padx=10, pady=5, fill='x', expand=True)
 
     # Seperator between sections
     sep_line = ttk.Separator()
-    sep_line.pack(pady= (10,0), fill="x", expand=True)
+    sep_line.pack(pady= (5,0), fill="x", expand=True)
 
     # Copyright Label
     copyright_label = ttk.Label(root, text="Developed by: Yousef S. Al-Qattan - Kuwait Institute for Scientific Research", font=("Helvetica", 12))
     copyright_label.pack(side=ttk.LEFT, padx=5, pady=5)
-
+ 
     # Version Label
-    version_label = ttk.Label(root, text="v20240122", font=("Helvetica", 12))
+    version_label = ttk.Label(root, text="v20240129", font=("Helvetica", 12))
     version_label.pack(side=ttk.RIGHT, padx=5, pady=5)
 
     root.mainloop()
