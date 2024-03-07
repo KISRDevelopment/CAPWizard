@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+### [v20240307] - 2024-03-07
+- Fix issue for import and export tech_activity in LDR sheets.
+- Fixed 'Units' column in LDR sheets.
+
 
 ### [v20240129] - 2024-01-29
 - Cost Calculation feature: Introduce new cost calculation feature to get the variable and fixed cost for running a certain technology. The cost is calculated for each  technology as the costs to run the technology summed with the cost to run its sources.

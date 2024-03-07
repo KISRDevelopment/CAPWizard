@@ -71,13 +71,10 @@ def handle_duplicate_year_specified_data(tables_dict):
 def handle_impexp(tables_dict):
     for key in tables_dict:
         # Sometimes its called _imp and exporting or _exp and importing
-        # here I check when there is one row (output only) in the activity code group 1
-        # then it is import otherwise it is export
+        # here I check when there is no input then it is import otherwise its export
         imp_exp_mask = tables_dict[key]['tech_activity'].isin(['import', 'export'])
-        grouped = tables_dict[key][imp_exp_mask].groupby(['tech_code','activity_code'])
-        mask_single_row_group = grouped['activity_code'].transform('size') == 1
-        tables_dict[key].loc[imp_exp_mask & mask_single_row_group, 'tech_activity'] = 'import'
-        tables_dict[key].loc[imp_exp_mask & (~mask_single_row_group), 'tech_activity'] = 'export'
+        tables_dict[key].loc[imp_exp_mask, 'tech_activity'] = tables_dict[key].loc[imp_exp_mask, 'minp_code']\
+                                                                .apply(lambda x: 'export' if pd.notna(x) and x != '' else 'import')
 
         # Make the output of an export as a negative value
         tact_mask = tables_dict[key]['tech_activity'] == 'export'

@@ -95,7 +95,7 @@ def add_units_column(tables_dict):
         'Fixed_cost': 'kUSD',
         'Tech_balance': 'MWyr',
         'Emissions': 'ktons',
-        'LDR': 'MWyr',
+        'LDR': 'MW',
     }
     for key in tables_dict:
         if key in units_dicts.keys():
