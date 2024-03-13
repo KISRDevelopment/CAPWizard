@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [v20240313] - 2024-03-13
+- Add MESSAGE demo case as a reference based on MESSAGE Demo_Case5.
+- Fix issue in Tech CAP generation when all PLL are c (constants).
+- Fix issue in LDR CAP generation when there is more than one day type.
+- Fix bug that caused the application to crash when interpolation run option is selected
+
+
 ### [v20240307] - 2024-03-07
 - Fix issue for import and export tech_activity in LDR sheets.
 - Fixed 'Units' column in LDR sheets.

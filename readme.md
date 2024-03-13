@@ -6,7 +6,7 @@
 
 ## Version
 
-Current Version: v20240307
+Current Version: v20240313
 
 ## Overview
 
@@ -15,6 +15,8 @@ CAP Wizard for IAEA MESSAGE is a multifaceted tool developed to streamline resul
 The first module of CAP Wizard focuses on generating special Tech and LDR `cin` files, which need to be placed within the `data` folder of the model folder. At this model the user should run along with CAP to generate the results. The results can be found within the `res` folder that is contained in the model folder and are named `LDR_CAP_adb.tab` and `Tech_CAP_adb.tab`. These results from these files can be copied into MS Excel using text import wizard function of Excel. Once imported into Excel these files, CAP Wizard further processes the outputs and enriches the results with data beyond what is available from MESSAGE interactive outputs by using the ADB database file from the model in its second module for processing the results. It further enhances the results by a customizable template MS Excel file, enabling users to tailor the tool to their specific model requirements. For instance, users can add generation types to technologies in the model, allowing for more detailed filtering in the processed results. Furthermore, CAP Wizard uniquely supports LDR results processing and introduces a novel approach to cost calculations in a special module, detailed in the cost calculation section.
 
 The processed result file is generated and outputted as an MS Excel file, facilitating more analysis and visualization, including the use of pivot tables with extensive filtering options. This makes the processed results the main file for results analysis and visualization.
+
+A [demo case](Demo_Case) has been added for a reference to showcase how `Cap Wizard` works which is a modification of demo_case5 that is built in with MESSAGE.
 
 The streamlined workflow for running a model and analyzing results is as follows:
 
@@ -155,8 +157,8 @@ The conversion above is done by the `to_network()` function in `TopologyConverte
 
 For end-users:
 
-- For macOS: Download and install the provided `.dmg` in the Installer directory.
-- For Windows: Download and use the provided `.exe` in the Installer directory.
+- For macOS: Download and install the provided `.dmg` in the [Installer](Installer) directory.
+- For Windows: Download and use the provided `.exe` in the [Installer](Installer) directory.
 
 Additionally, download the `template.xlsx` to customize the tool for your specific model.
 

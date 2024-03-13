@@ -228,7 +228,7 @@ def create_ui(root):
     copyright_label.pack(side=ttk.LEFT, padx=5, pady=5)
  
     # Version Label
-    version_label = ttk.Label(root, text="v20240307", font=("Helvetica", 12))
+    version_label = ttk.Label(root, text="v20240313", font=("Helvetica", 12))
     version_label.pack(side=ttk.RIGHT, padx=5, pady=5)
 
     root.mainloop()
