@@ -21,6 +21,7 @@ def extract_rows_between_markers(df, start_marker, end_marker, search_column=0):
 def extract_load_region(adb_df):
     adb_df = adb_df.copy()
     adb_df=extract_rows_between_markers(adb_df, start_marker='loadregions:', end_marker='energyforms:')
+    adb_df = adb_df.dropna(how='all', axis=1)
     adb_df = adb_df.iloc[2:,1:-1]  # drop first two rows and first and last cols since they don't have any info
     mid_point = int(len(adb_df)/2)
     ldr_names=adb_df.iloc[:mid_point,:].reset_index(drop=True)
@@ -29,6 +30,8 @@ def extract_load_region(adb_df):
     result = []
     for idx in ldr_names.index:
         for col in ldr_names.columns:
+            if ldr_names.at[idx, col] == '\\':
+                continue
             result.append({
                 'season': idx+1,
                 'ts_code': ldr_names.at[idx, col],
@@ -164,6 +167,11 @@ def extract_adb_plant_life(adb_df):
     adb_df = adb_df.reset_index(drop=True)
     adb_df = adb_df.ffill(axis=1)
     adb_df = adb_df.drop([1,2], axis=1)
+    if len(adb_df.columns) < len(['tech_code'] + cols):
+        diff = len(['tech_code'] + cols) - len(adb_df.columns)
+        for i in range(diff):
+            adb_df[str(i)] = np.nan
+    adb_df = adb_df.ffill(axis=1)
     adb_df.columns = ['tech_code'] + cols
     adb_df = adb_df.melt(id_vars='tech_code', var_name='year', value_name='value')
     adb_df['year'] = adb_df['year'].astype(int)
