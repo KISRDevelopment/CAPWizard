@@ -1,0 +1,90 @@
+title: szn1
+unit: MWyr, 1.
+direction: hor
+postdigits: 8
+@
+Coal_PP___se_aaa = scae......aaa:out / 0.035342
+Coal_PP___se_aab = scae......aab:out / 0.176712
+Coal_PP___se_aac = scae......aac:out / 0.141370
+Oil_PP___se_aaa = soae......aaa:out / 0.035342
+Oil_PP___se_aab = soae......aab:out / 0.176712
+Oil_PP___se_aac = soae......aac:out / 0.141370
+Ele_TD___fe_aaa = feae......aaa:out / 0.035342
+Ele_TD___fe_aab = feae......aab:out / 0.176712
+Ele_TD___fe_aac = feae......aac:out / 0.141370
+Hyd1___se_aaa = s.ae......aaa:out / 0.035342
+Hyd1___se_aab = s.ae......aab:out / 0.176712
+Hyd1___se_aac = s.ae......aac:out / 0.141370
+Hyd2___se_aaa = s.be......aaa:out / 0.035342
+Hyd2___se_aab = s.be......aab:out / 0.176712
+Hyd2___se_aac = s.be......aac:out / 0.141370
+Renewable___se_aaa = s.Re......aaa:out / 0.035342
+Renewable___se_aab = s.Re......aab:out / 0.176712
+Renewable___se_aac = s.Re......aac:out / 0.141370
+@
+title: szn2
+unit: MWyr, 1.
+direction: hor
+postdigits: 8
+@
+Coal_PP___se_aba = scae......aba:out / 0.085479
+Coal_PP___se_abb = scae......abb:out / 0.056986
+Oil_PP___se_aba = soae......aba:out / 0.085479
+Oil_PP___se_abb = soae......abb:out / 0.056986
+Ele_TD___fe_aba = feae......aba:out / 0.085479
+Ele_TD___fe_abb = feae......abb:out / 0.056986
+Hyd1___se_aba = s.ae......aba:out / 0.085479
+Hyd1___se_abb = s.ae......abb:out / 0.056986
+Hyd2___se_aba = s.be......aba:out / 0.085479
+Hyd2___se_abb = s.be......abb:out / 0.056986
+Renewable___se_aba = s.Re......aba:out / 0.085479
+Renewable___se_abb = s.Re......abb:out / 0.056986
+@
+title: szn3
+unit: MWyr, 1.
+direction: hor
+postdigits: 8
+@
+Coal_PP___se_baa = scae......baa:out / 0.007123
+Coal_PP___se_bab = scae......bab:out / 0.035616
+Coal_PP___se_bac = scae......bac:out / 0.028493
+Oil_PP___se_baa = soae......baa:out / 0.007123
+Oil_PP___se_bab = soae......bab:out / 0.035616
+Oil_PP___se_bac = soae......bac:out / 0.028493
+Ele_TD___fe_baa = feae......baa:out / 0.007123
+Ele_TD___fe_bab = feae......bab:out / 0.035616
+Ele_TD___fe_bac = feae......bac:out / 0.028493
+Hyd1___se_baa = s.ae......baa:out / 0.007123
+Hyd1___se_bab = s.ae......bab:out / 0.035616
+Hyd1___se_bac = s.ae......bac:out / 0.028493
+Hyd2___se_baa = s.be......baa:out / 0.007123
+Hyd2___se_bab = s.be......bab:out / 0.035616
+Hyd2___se_bac = s.be......bac:out / 0.028493
+Renewable___se_baa = s.Re......baa:out / 0.007123
+Renewable___se_bab = s.Re......bab:out / 0.035616
+Renewable___se_bac = s.Re......bac:out / 0.028493
+@
+title: szn4
+unit: MWyr, 1.
+direction: hor
+postdigits: 8
+@
+Coal_PP___se_bba = scae......bba:out / 0.016438
+Coal_PP___se_bbb = scae......bbb:out / 0.010959
+Coal_PP___se_caa = scae......caa:out / 0.405479
+Oil_PP___se_bba = soae......bba:out / 0.016438
+Oil_PP___se_bbb = soae......bbb:out / 0.010959
+Oil_PP___se_caa = soae......caa:out / 0.405479
+Ele_TD___fe_bba = feae......bba:out / 0.016438
+Ele_TD___fe_bbb = feae......bbb:out / 0.010959
+Ele_TD___fe_caa = feae......caa:out / 0.405479
+Hyd1___se_bba = s.ae......bba:out / 0.016438
+Hyd1___se_bbb = s.ae......bbb:out / 0.010959
+Hyd1___se_caa = s.ae......caa:out / 0.405479
+Hyd2___se_bba = s.be......bba:out / 0.016438
+Hyd2___se_bbb = s.be......bbb:out / 0.010959
+Hyd2___se_caa = s.be......caa:out / 0.405479
+Renewable___se_bba = s.Re......bba:out / 0.016438
+Renewable___se_bbb = s.Re......bbb:out / 0.010959
+Renewable___se_caa = s.Re......caa:out / 0.405479
+@

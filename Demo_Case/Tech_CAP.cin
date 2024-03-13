@@ -1,0 +1,256 @@
+title: Objective
+unit: , 1.
+direction: hor
+@
+obj = func:act
+@
+title: Tech_in_out
+unit: MWyr, 1.
+direction: hor
+postdigits: 4
+@
+Coal_Extr___rc = pcac:inp
+Coal_Extr___pc = pcac:out
+Oil_Imp___po = p.ao:out
+Oil_P_S___po = soao:inp
+Oil_P_S___so = soao:out
+Coal_PP___pc = scae:inp
+Coal_PP___se = scae:out
+Oil_PP___so = soae:inp
+Oil_PP___se = soae:out
+Oil_S_F___so = foao:inp
+Oil_S_F___fo = foao:out
+Ele_TD___se = feae:inp
+Ele_TD___fe = feae:out
+Hyd1___se = s.ae:out
+Hyd2___se = s.be:out
+Renewable___se = s.Re:out
+@
+title: Total_installed_cap
+unit: MW, 1.
+direction: hor
+postdigits: 4
+@
+Coal_Extr___pc_2002 = pcac:yact:cum:sh>:#01:101
+Coal_Extr___pc_2005 = pcac:yact:cum:sh>:#02:102
+Coal_Extr___pc_2010 = pcac:yact:cum:sh>:#03:103
+Coal_Extr___pc_2015 = pcac:yact:cum:sh>:#04:104
+Coal_Extr___pc_2020 = pcac:yact:cum:sh>:#05:105
+Coal_Extr___pc_2025 = pcac:yact:cum:sh>:#06:106 - pcac:yact:prd:sh>:#01:106  * 0.6
+Oil_Imp___po_2002 = p.ao:yact:cum:sh>:#01:101
+Oil_Imp___po_2005 = p.ao:yact:cum:sh>:#02:102
+Oil_Imp___po_2010 = p.ao:yact:cum:sh>:#03:103
+Oil_Imp___po_2015 = p.ao:yact:cum:sh>:#04:104
+Oil_Imp___po_2020 = p.ao:yact:cum:sh>:#05:105
+Oil_Imp___po_2025 = p.ao:yact:cum:sh>:#06:106 - p.ao:yact:prd:sh>:#01:106  * 0.6
+Oil_P_S___so_2002 = soao:yact:cum:sh>:#01:101
+Oil_P_S___so_2005 = soao:yact:cum:sh>:#02:102
+Oil_P_S___so_2010 = soao:yact:cum:sh>:#03:103
+Oil_P_S___so_2015 = soao:yact:cum:sh>:#04:104
+Oil_P_S___so_2020 = soao:yact:cum:sh>:#05:105
+Oil_P_S___so_2025 = soao:yact:cum:sh>:#06:106 - soao:yact:prd:sh>:#01:106  * 0.6
+Coal_PP___se_2002 = scae:yact:cum:sh>:#01:101 + 200 + 200
+Coal_PP___se_2005 = scae:yact:cum:sh>:#02:102 + 120 + 200
+Coal_PP___se_2010 = scae:yact:cum:sh>:#03:103 + 120
+Coal_PP___se_2015 = scae:yact:cum:sh>:#04:104 - scae:yact:prd:sh>:#01:104  * 0.2
+Coal_PP___se_2020 = scae:yact:cum:sh>:#05:105 - scae:yact:prd:sh>:#01:105 - scae:yact:prd:sh>:#02:105  * 0.6
+Coal_PP___se_2025 = scae:yact:cum:sh>:#06:106 - scae:yact:prd:sh>:#01:106 - scae:yact:prd:sh>:#02:106 - scae:yact:prd:sh>:#03:106  * 0.6
+Oil_PP___se_2002 = soae:yact:cum:sh>:#01:101 + 100 + 125
+Oil_PP___se_2005 = soae:yact:cum:sh>:#02:102 + 100 + 125
+Oil_PP___se_2010 = soae:yact:cum:sh>:#03:103 + 100 + 125
+Oil_PP___se_2015 = soae:yact:cum:sh>:#04:104 + 100 + 125
+Oil_PP___se_2020 = soae:yact:cum:sh>:#05:105 + 125
+Oil_PP___se_2025 = soae:yact:cum:sh>:#06:106
+Oil_S_F___fo_2002 = foao:yact:cum:sh>:#01:101
+Oil_S_F___fo_2005 = foao:yact:cum:sh>:#02:102
+Oil_S_F___fo_2010 = foao:yact:cum:sh>:#03:103
+Oil_S_F___fo_2015 = foao:yact:cum:sh>:#04:104
+Oil_S_F___fo_2020 = foao:yact:cum:sh>:#05:105
+Oil_S_F___fo_2025 = foao:yact:cum:sh>:#06:106 - foao:yact:prd:sh>:#01:106  * 0.6
+Ele_TD___fe_2002 = feae:yact:cum:sh>:#01:101 + 600
+Ele_TD___fe_2005 = feae:yact:cum:sh>:#02:102 + 600
+Ele_TD___fe_2010 = feae:yact:cum:sh>:#03:103 + 600
+Ele_TD___fe_2015 = feae:yact:cum:sh>:#04:104 + 600
+Ele_TD___fe_2020 = feae:yact:cum:sh>:#05:105
+Ele_TD___fe_2025 = feae:yact:cum:sh>:#06:106 - feae:yact:prd:sh>:#01:106  * 0.6
+Hyd1___se_2002 = s.ae:yact:cum:sh>:#01:101
+Hyd1___se_2005 = s.ae:yact:cum:sh>:#02:102
+Hyd1___se_2010 = s.ae:yact:cum:sh>:#03:103
+Hyd1___se_2015 = s.ae:yact:cum:sh>:#04:104
+Hyd1___se_2020 = s.ae:yact:cum:sh>:#05:105
+Hyd1___se_2025 = s.ae:yact:cum:sh>:#06:106 - s.ae:yact:prd:sh>:#01:106  * 0.6
+Hyd2___se_2002 = s.be:yact:cum:sh>:#01:101
+Hyd2___se_2005 = s.be:yact:cum:sh>:#02:102
+Hyd2___se_2010 = s.be:yact:cum:sh>:#03:103
+Hyd2___se_2015 = s.be:yact:cum:sh>:#04:104
+Hyd2___se_2020 = s.be:yact:cum:sh>:#05:105
+Hyd2___se_2025 = s.be:yact:cum:sh>:#06:106 - s.be:yact:prd:sh>:#01:106  * 0.6
+Renewable___se_2002 = s.Re:yact:cum:sh>:#01:101
+Renewable___se_2005 = s.Re:yact:cum:sh>:#02:102
+Renewable___se_2010 = s.Re:yact:cum:sh>:#03:103
+Renewable___se_2015 = s.Re:yact:cum:sh>:#04:104
+Renewable___se_2020 = s.Re:yact:cum:sh>:#05:105 - s.Re:yact:prd:sh>:#01:105  * 0.6
+Renewable___se_2025 = s.Re:yact:cum:sh>:#06:106 - s.Re:yact:prd:sh>:#01:106 - s.Re:yact:prd:sh>:#02:106
+@
+title: New_installed_cap
+unit: MW, 1.
+direction: hor
+postdigits: 4
+@
+Coal_Extr___pc = pcac:yact
+Oil_Imp___po = p.ao:yact
+Oil_P_S___so = soao:yact
+Coal_PP___se = scae:yact
+Oil_PP___se = soae:yact
+Oil_S_F___fo = foao:yact
+Ele_TD___fe = feae:yact
+Hyd1___se = s.ae:yact
+Hyd2___se = s.be:yact
+Renewable___se = s.Re:yact
+@
+title: Investments_per_unit
+unit:  USD/kW, 1.
+direction: hor
+postdigits: 4
+@
+Coal_Extr___pc = pcac:inv
+Oil_Imp___po = p.ao:inv
+Oil_P_S___so = soao:inv
+Coal_PP___se = scae:inv
+Oil_PP___se = soae:inv
+Oil_S_F___fo = foao:inv
+Ele_TD___fe = feae:inv
+Hyd1___se = s.ae:inv
+Hyd2___se = s.be:inv
+Renewable___se = s.Re:inv
+@
+title: Investments_for_new_installations
+unit: kUSD, 1.
+direction: hor
+postdigits: 4
+@
+Coal_Extr___pc = pcac:inv * pcac:yact
+Oil_Imp___po = p.ao:inv * p.ao:yact
+Oil_P_S___so = soao:inv * soao:yact
+Coal_PP___se = scae:inv * scae:yact
+Oil_PP___se = soae:inv * soae:yact
+Oil_S_F___fo = foao:inv * foao:yact
+Ele_TD___fe = feae:inv * feae:yact
+Hyd1___se = s.ae:inv * s.ae:yact
+Hyd2___se = s.be:inv * s.be:yact
+Renewable___se = s.Re:inv * s.Re:yact
+@
+title: Variable_cost_per_unit_of_output
+unit: USD/kWyr, 1.
+direction: hor
+postdigits: 4
+@
+Coal_Extr___pc = pcac:vom
+Oil_Imp___po = p.ao:vom
+Oil_P_S___so = soao:vom
+Coal_PP___se = scae:vom
+Oil_PP___se = soae:vom
+Oil_S_F___fo = foao:vom
+Ele_TD___fe = feae:vom
+Hyd1___se = s.ae:vom
+Hyd2___se = s.be:vom
+Renewable___se = s.Re:vom
+@
+title: Variable_cost
+unit: kUSD, 1.
+direction: hor
+postdigits: 4
+@
+Coal_Extr___pc = pcac:vom * pcac:out
+Oil_Imp___po = p.ao:vom * p.ao:out
+Oil_P_S___so = soao:vom * soao:out
+Coal_PP___se = scae:vom * scae:out
+Oil_PP___se = soae:vom * soae:out
+Oil_S_F___fo = foao:vom * foao:out
+Ele_TD___fe = feae:vom * feae:out
+Hyd1___se = s.ae:vom * s.ae:out
+Hyd2___se = s.be:vom * s.be:out
+Renewable___se = s.Re:vom * s.Re:out
+@
+title: Fixed_cost_per_unit_of_output
+unit: USD/kWyr, 1.
+direction: hor
+postdigits: 4
+@
+Coal_Extr___pc = pcac:fom
+Oil_Imp___po = p.ao:fom
+Oil_P_S___so = soao:fom
+Coal_PP___se = scae:fom
+Oil_PP___se = soae:fom
+Oil_S_F___fo = foao:fom
+Ele_TD___fe = feae:fom
+Hyd1___se = s.ae:fom
+Hyd2___se = s.be:fom
+Renewable___se = s.Re:fom
+@
+title: Fixed_cost
+unit: kUSD, 1.
+direction: hor
+postdigits: 4
+@
+Coal_Extr___pc_2002 = pcac:fom * (pcac:yact:cum:#00:101)
+Coal_Extr___pc_2005 = pcac:fom * (pcac:yact:cum:#01:102)
+Coal_Extr___pc_2010 = pcac:fom * (pcac:yact:cum:#02:103)
+Coal_Extr___pc_2015 = pcac:fom * (pcac:yact:cum:#03:104)
+Coal_Extr___pc_2020 = pcac:fom * (pcac:yact:cum:#04:105)
+Coal_Extr___pc_2025 = pcac:fom * (pcac:yact:cum:#05:106 - pcac:yact:prd:sh>:#01:106  * 0.6)
+Oil_Imp___po_2002 = p.ao:fom * (p.ao:yact:cum:#00:101)
+Oil_Imp___po_2005 = p.ao:fom * (p.ao:yact:cum:#01:102)
+Oil_Imp___po_2010 = p.ao:fom * (p.ao:yact:cum:#02:103)
+Oil_Imp___po_2015 = p.ao:fom * (p.ao:yact:cum:#03:104)
+Oil_Imp___po_2020 = p.ao:fom * (p.ao:yact:cum:#04:105)
+Oil_Imp___po_2025 = p.ao:fom * (p.ao:yact:cum:#05:106 - p.ao:yact:prd:sh>:#01:106  * 0.6)
+Oil_P_S___so_2002 = soao:fom * (soao:yact:cum:#00:101)
+Oil_P_S___so_2005 = soao:fom * (soao:yact:cum:#01:102)
+Oil_P_S___so_2010 = soao:fom * (soao:yact:cum:#02:103)
+Oil_P_S___so_2015 = soao:fom * (soao:yact:cum:#03:104)
+Oil_P_S___so_2020 = soao:fom * (soao:yact:cum:#04:105)
+Oil_P_S___so_2025 = soao:fom * (soao:yact:cum:#05:106 - soao:yact:prd:sh>:#01:106  * 0.6)
+Coal_PP___se_2002 = scae:fom * (scae:yact:cum:#00:101 + 200 + 200)
+Coal_PP___se_2005 = scae:fom * (scae:yact:cum:#01:102 + 120 + 200)
+Coal_PP___se_2010 = scae:fom * (scae:yact:cum:#02:103 + 120)
+Coal_PP___se_2015 = scae:fom * (scae:yact:cum:#03:104 - scae:yact:prd:sh>:#01:104  * 0.2)
+Coal_PP___se_2020 = scae:fom * (scae:yact:cum:#04:105 - scae:yact:prd:sh>:#01:105 - scae:yact:prd:sh>:#02:105  * 0.6)
+Coal_PP___se_2025 = scae:fom * (scae:yact:cum:#05:106 - scae:yact:prd:sh>:#01:106 - scae:yact:prd:sh>:#02:106 - scae:yact:prd:sh>:#03:106  * 0.6)
+Oil_PP___se_2002 = soae:fom * (soae:yact:cum:#00:101 + 100 + 125)
+Oil_PP___se_2005 = soae:fom * (soae:yact:cum:#01:102 + 100 + 125)
+Oil_PP___se_2010 = soae:fom * (soae:yact:cum:#02:103 + 100 + 125)
+Oil_PP___se_2015 = soae:fom * (soae:yact:cum:#03:104 + 100 + 125)
+Oil_PP___se_2020 = soae:fom * (soae:yact:cum:#04:105 + 125)
+Oil_PP___se_2025 = soae:fom * (soae:yact:cum:#05:106)
+Oil_S_F___fo_2002 = foao:fom * (foao:yact:cum:#00:101)
+Oil_S_F___fo_2005 = foao:fom * (foao:yact:cum:#01:102)
+Oil_S_F___fo_2010 = foao:fom * (foao:yact:cum:#02:103)
+Oil_S_F___fo_2015 = foao:fom * (foao:yact:cum:#03:104)
+Oil_S_F___fo_2020 = foao:fom * (foao:yact:cum:#04:105)
+Oil_S_F___fo_2025 = foao:fom * (foao:yact:cum:#05:106 - foao:yact:prd:sh>:#01:106  * 0.6)
+Ele_TD___fe_2002 = feae:fom * (feae:yact:cum:#00:101 + 600)
+Ele_TD___fe_2005 = feae:fom * (feae:yact:cum:#01:102 + 600)
+Ele_TD___fe_2010 = feae:fom * (feae:yact:cum:#02:103 + 600)
+Ele_TD___fe_2015 = feae:fom * (feae:yact:cum:#03:104 + 600)
+Ele_TD___fe_2020 = feae:fom * (feae:yact:cum:#04:105)
+Ele_TD___fe_2025 = feae:fom * (feae:yact:cum:#05:106 - feae:yact:prd:sh>:#01:106  * 0.6)
+Hyd1___se_2002 = s.ae:fom * (s.ae:yact:cum:#00:101)
+Hyd1___se_2005 = s.ae:fom * (s.ae:yact:cum:#01:102)
+Hyd1___se_2010 = s.ae:fom * (s.ae:yact:cum:#02:103)
+Hyd1___se_2015 = s.ae:fom * (s.ae:yact:cum:#03:104)
+Hyd1___se_2020 = s.ae:fom * (s.ae:yact:cum:#04:105)
+Hyd1___se_2025 = s.ae:fom * (s.ae:yact:cum:#05:106 - s.ae:yact:prd:sh>:#01:106  * 0.6)
+Hyd2___se_2002 = s.be:fom * (s.be:yact:cum:#00:101)
+Hyd2___se_2005 = s.be:fom * (s.be:yact:cum:#01:102)
+Hyd2___se_2010 = s.be:fom * (s.be:yact:cum:#02:103)
+Hyd2___se_2015 = s.be:fom * (s.be:yact:cum:#03:104)
+Hyd2___se_2020 = s.be:fom * (s.be:yact:cum:#04:105)
+Hyd2___se_2025 = s.be:fom * (s.be:yact:cum:#05:106 - s.be:yact:prd:sh>:#01:106  * 0.6)
+Renewable___se_2002 = s.Re:fom * (s.Re:yact:cum:#00:101)
+Renewable___se_2005 = s.Re:fom * (s.Re:yact:cum:#01:102)
+Renewable___se_2010 = s.Re:fom * (s.Re:yact:cum:#02:103)
+Renewable___se_2015 = s.Re:fom * (s.Re:yact:cum:#03:104)
+Renewable___se_2020 = s.Re:fom * (s.Re:yact:cum:#04:105 - s.Re:yact:prd:sh>:#01:105  * 0.6)
+Renewable___se_2025 = s.Re:fom * (s.Re:yact:cum:#05:106 - s.Re:yact:prd:sh>:#01:106 - s.Re:yact:prd:sh>:#02:106)
+@
