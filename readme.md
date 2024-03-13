@@ -20,16 +20,18 @@ The streamlined workflow for running a model and analyzing results is as follows
 
 1. **Model Execution**: Run the MESSAGE model.
 2. **CAP File Generation**: Use CAPWizard to generate Tech and LDR files.
-3. **Run CAP**: Execute CAP in IAEA MESSAGE.
-4. **Results Conversion**: Import results 
+3. **Place Cin Files**: Move generated cin files to `data` folder of the model directory.
+4. **Select Cin Files**: Select cin files in IAEA MESSAGE. Choose `Select` menu in the toolbar then the `cinfiles` option.
+5. **Run CAP**: Execute CAP in IAEA MESSAGE.
+6. **Results Conversion**: Import results 
     <ol type="a">
         <li>Go to folder for the model containing and open the subfolder titled <code>res</code>.</li>
         <li>Open <code>Tech_CAP_adb.tab</code> and <code>LDR_CAP_adb.tab</code> and copy the results from these files.</li>
         <li>Paste into Excel using the MS Excel text import wizard. The delimiter is usually a space or a tab character.</li>
         <li>Save the file where necessary.</li>
     </ol>
-5. **Results Processing**: Utilize CAPWizard to process these results.
-6. **Data Analysis & Visualization**: Refresh the pivot table and plotting data sources in Excel for advanced analysis and visualizations.
+7. **Results Processing**: Utilize CAPWizard to process these results.
+8. **Data Analysis & Visualization**: Refresh the pivot table and plotting data sources in Excel for advanced analysis and visualizations.
 
 
 ## Cost Calculation
