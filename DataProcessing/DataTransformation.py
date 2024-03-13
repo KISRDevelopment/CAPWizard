@@ -104,6 +104,8 @@ def interpolate_missing_years(df):
         prev_year_idx = get_nearest_index(year, df.columns[start_year_idx:]) + start_year_idx
         prev_year = df.columns[prev_year_idx]
         next_year = df.columns[prev_year_idx + 1]
+        df[prev_year] = pd.to_numeric(df[prev_year], errors='coerce')
+        df[next_year] = pd.to_numeric(df[next_year], errors='coerce')
         interpolated_values = df[[prev_year, next_year]].interpolate(axis=1)
         df.insert(prev_year_idx+1, year, interpolated_values[prev_year] + (interpolated_values[next_year] - interpolated_values[prev_year]) * (
                     year - prev_year) / (next_year - prev_year))
