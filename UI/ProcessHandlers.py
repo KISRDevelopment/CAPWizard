@@ -143,12 +143,12 @@ def process_results(root, progress_bar, progress_label, time_label, tech_results
 
         if ldr_file:
             stage_index += 1
-            for sheet in ldr_file.sheet_names:
+            for idx, sheet in enumerate(ldr_file.sheet_names):
                 stage_progress = idx / len(ldr_file.sheet_names) * 100 / num_stages
                 overall_progress = 100 * (1 / num_stages)  # Add previous stages' progress
                 if with_cost:
                     overall_progress += 100 * (1 / num_stages)  # Add Cost stage progress
-                overall_progress += stage_progress
+                overall_progress = overall_progress * (stage_index - 1) + stage_progress
                 msg = f'Processing LDR: {sheet}'
                 print(msg)
                 PBar.update_progress_bar(progress_bar, progress_label, time_label, overall_progress, 100, msg, start_time)
