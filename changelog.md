@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+### [v20240314] - 2024-03-14
+- Include demand level in LDR cin file generator to be processed.
+- Implement check for update. When there is an update, the version label turns red and become clickable.
+- Fix bug in progress when processing LDR only.
+
+
 ### [v20240313] - 2024-03-13
 - Add MESSAGE demo case as a reference based on MESSAGE Demo_Case5.
 - Fix issue in Tech CAP generation when all PLL are c (constants).
