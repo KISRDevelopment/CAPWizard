@@ -67,6 +67,17 @@ def extract_tech_load_curves(adb_df):
     return adb_df
 
 
+def extract_demand_codes(adb_df):
+    adb_df = adb_df.copy()
+    adb_df = extract_rows_between_markers(adb_df, start_marker='demand:', end_marker='loadcurve:')
+
+    codes = []
+    for index, row in adb_df.iterrows():
+            if row[0] not in codes:
+                codes.append(row[0])
+    return codes
+
+
 def extract_adb_energy_forms(adb_df):
     adb_df = adb_df.copy()
     adb_df=extract_rows_between_markers(adb_df, start_marker='energyforms:', end_marker='demand:')
