@@ -8,17 +8,25 @@ import os
 
 
 def LDR_CAP_generation_process(adb_filepath, output_dir='', cin_file_name = 'LDR_CAP'):
-    def LDR_eqn(adb_df, ldr_df, tech_ldc_df, row, season):
+    def LDR_eqn(adb_df, ldr_df, tech_ldc_df, demand_codes, row, season):
         adb_df = adb_df[adb_df['tech_code'] == row['tech_code']]
         ldr_type = adb_df['ldr_type'].iloc[0] if adb_df.shape[0] != 0 else np.nan
-        tech_ldc_df = tech_ldc_df[tech_ldc_df['tech_code'] == row['tech_code']].reset_index(drop=True)
+
+        demand_code = str(row['form_code']) + '-' + str(row['level_code'])
+        ldr_type = 'demand' if demand_code in demand_codes else ldr_type
+
+        if ldr_type == 'demand':
+            tech_ldc_df = tech_ldc_df[tech_ldc_df['key'] == demand_code].reset_index(drop=True)
+        else:
+            tech_ldc_df = tech_ldc_df[tech_ldc_df['tech_code'] == row['tech_code']].reset_index(drop=True)
+
         ldr_df = pd.merge(ldr_df, tech_ldc_df['value'], left_index=True, right_index=True, how='left')
         ldr_df = ldr_df[ldr_df['season'] == season].reset_index(drop=True)
 
         eqn = []
         for _, ldr_row in ldr_df.iterrows():
             e = f"{row['tech_code']}___{row['level_code']}{row['form_code']}_{ldr_row['ts_code']} = "
-            if ldr_type == 'moutp':
+            if ldr_type in ['moutp','demand']:
                 e += f"{row['full_code']}:out * {ldr_row['value']:.6f} / {ldr_row['ts_length']:.6f}"
             else:
                 e += f"{row['full_code']}......{ldr_row['ts_code']}:out / {ldr_row['ts_length']:.6f}"
@@ -29,9 +37,11 @@ def LDR_CAP_generation_process(adb_filepath, output_dir='', cin_file_name = 'LDR
     adb_df = DataIO.read_adb_file(adb_filepath)
     ldr_df = Extractor.extract_load_region(adb_df)
     tech_ldc_df = Extractor.extract_tech_load_curves(adb_df)
+    demand_codes = Extractor.extract_demand_codes(adb_df)
     adb_df = Cleaner.clean_up_adb(adb_df)
 
-    adb_df = adb_df[adb_df['hasldr'] & adb_df['type'].isin(['main output','output']) & (adb_df['level'] != 'Demand')]
+    # Filtered out demand since CAP return empty results if the demand level is added in the generated cin file
+    adb_df = adb_df[adb_df['hasldr'] & adb_df['type'].isin(['main output','output'])]
     seasons = sorted(ldr_df['season'].unique())
     cap = []
 
@@ -43,7 +53,7 @@ def LDR_CAP_generation_process(adb_filepath, output_dir='', cin_file_name = 'LDR
                                 only_output=True,
                                 exclude_secondary_op_modes=False,
                                 precision=8,
-                                eqn_func=lambda row: LDR_eqn(adb_df=adb_df, ldr_df=ldr_df, tech_ldc_df=tech_ldc_df, row=row, season=s)),
+                                eqn_func=lambda row: LDR_eqn(adb_df=adb_df, ldr_df=ldr_df, tech_ldc_df=tech_ldc_df, demand_codes=demand_codes, row=row, season=s)),
         )
 
     cap_text = '\n@\n'.join(cap) + '\n@'
