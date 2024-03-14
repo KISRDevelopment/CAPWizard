@@ -157,8 +157,8 @@ The conversion above is done by the `to_network()` function in `TopologyConverte
 
 For end-users:
 
-- For macOS: Download and install the provided `.dmg` in the [Installer](Installer) directory.
-- For Windows: Download and use the provided `.exe` in the [Installer](Installer) directory.
+- For macOS: [Download](Installer/CAPWizard.dmg)
+- For Windows: [Download](Installer/CAPWizard.exe)
 
 Additionally, download the `template.xlsx` to customize the tool for your specific model.
 
