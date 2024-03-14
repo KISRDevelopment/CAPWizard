@@ -6,6 +6,12 @@ import Utils.Helper as Helper
 from UI import ProcessHandlers
 from UI import GlobalState
 
+import requests
+
+import threading
+import webbrowser
+
+APP_VERSION = 'v20240314'
 
 def select_file(entry):
     file_obj = askopenfile()
@@ -40,6 +46,28 @@ def disable_buttons(root):
     root.generate_tech_button.config(state=ttk.DISABLED)
     root.generate_ldr_button.config(state=ttk.DISABLED)
     root.process_button.config(state=ttk.DISABLED)
+
+
+def check_for_updates(version_label):
+    readme_url = "https://raw.githubusercontent.com/KISRDevelopment/CAPWizard/master/readme.md"
+
+    try:
+        response = requests.get(readme_url)
+        content = response.text
+
+        # Find the line containing the version number
+        for line in content.split("\n"):
+            if "Current Version:" in line:
+                latest_version = line.split(":")[-1].strip()
+                break
+
+        if APP_VERSION != latest_version:
+            version_label.config(text=APP_VERSION, foreground="red")
+            version_label.bind("<Enter>", lambda e: version_label.config(text="Update available!", cursor="hand2"))
+            version_label.bind("<Leave>", lambda e: version_label.config(text=APP_VERSION, cursor=""))
+            version_label.bind("<Button-1>", lambda e: webbrowser.open("https://github.com/KISRDevelopment/CAPWizard"))
+    except Exception as e:
+        print(f"Error checking for updates: {e}")
 
 
 def create_ui(root):
@@ -228,7 +256,12 @@ def create_ui(root):
     copyright_label.pack(side=ttk.LEFT, padx=5, pady=5)
  
     # Version Label
-    version_label = ttk.Label(root, text="v20240313", font=("Helvetica", 12))
+    version_label = ttk.Label(root, text=APP_VERSION, font=("Helvetica", 12))
     version_label.pack(side=ttk.RIGHT, padx=5, pady=5)
+
+    # Start the update check in a separate thread
+    update_thread = threading.Thread(target=check_for_updates, args=(version_label,))
+    update_thread.daemon = True  # Mark the thread as a daemon so it exits when the main program exits
+    update_thread.start()
 
     root.mainloop()

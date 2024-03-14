@@ -2,3 +2,4 @@ pandas==2.1.1
 ttkbootstrap==1.10.1
 openpyxl==3.1.2
 pyinstaller==6.3.0
+requests==2.31.0
