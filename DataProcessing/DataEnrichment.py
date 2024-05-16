@@ -80,6 +80,25 @@ def embed_LDR_hour_and_type(tables_dict, slice_types):
     return tables_dict
 
 
+def apply_demand_ldr_type_on_adb(adb_df, demand_codes):
+    adb_df = adb_df.copy()
+
+    # Step 1: Compute demand_code
+    adb_df['demand_code'] = adb_df['form_code'] + '-' + adb_df['level_code']
+
+    # Step 2: Find unique tech_codes where demand_code is in demand_codes
+    tech_codes_to_update = adb_df[adb_df['demand_code'].isin(demand_codes)]['tech_code'].unique()
+
+    # Step 3: Update ldr_type for those tech_codes
+    adb_df.loc[adb_df['tech_code'].isin(tech_codes_to_update), 'ldr_type'] = 'demand'
+
+    # Step 4: Drop demand_code column
+    adb_df = adb_df.drop('demand_code', axis=1)
+    
+    return adb_df
+
+
+
 def add_units_column(tables_dict):
     tables_dict = tables_dict.copy()
     units_dicts = {
