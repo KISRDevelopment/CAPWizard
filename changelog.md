@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+### [v20240516] - 2024-05-16
+- Include technology inputs in LDR cin file generator to be processed.
+
+
 ### [v20240314] - 2024-03-14
 - Include demand level in LDR cin file generator to be processed.
 - Implement check for update. When there is an update, the version label turns red and become clickable.
