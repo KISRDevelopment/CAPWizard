@@ -7,6 +7,9 @@ import ADBProcessing.ADBProcessor as ADB
 import Utils.Helper as Helper
 import ResultsProcessing.ResultsProcessor as ResultsProcessor
 
+from CAPGeneration.TechCAPFileGenerator import Tech_CAP_generation_process
+from CAPGeneration.LDRCAPFileGenerator import LDR_CAP_generation_process
+
 
 def result_process(adb_filepath, tmpt_filepath, to_interpolate, tech_result_file=None, ldr_result_file=None, to_export=True, output_filename='Processed_results', output_dir=''):
     tech_file = pd.ExcelFile(tech_result_file) if tech_result_file else None
@@ -46,6 +49,10 @@ def result_process(adb_filepath, tmpt_filepath, to_interpolate, tech_result_file
 
 
 if __name__ == "__main__":
+    Tech_CAP_generation_process(adb_filepath='Adb_file.adb', nrun=11, output_dir=Helper.get_desktop_path())
+
+    LDR_CAP_generation_process(adb_filepath='Adb_file.adb', output_dir=Helper.get_desktop_path())
+
     result_process(adb_filepath='Adb_file.adb',
                    tmpt_filepath='Template.xlsx',
                    to_interpolate=False,
