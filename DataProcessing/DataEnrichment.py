@@ -69,11 +69,11 @@ def embed_LDR_hour_and_type(tables_dict, slice_types):
         tbl = tables_dict[key].copy()
 
         # for each tech_code in tbl, add an index column so that I have it numbered
-        tbl['slice'] = (tbl.groupby('tech_code').cumcount() / num_types).astype(int)
+        tbl['slice'] = (tbl.groupby(['tech_code', 'type']).cumcount() / num_types).astype(int)
         tbl['slice_time'] = (tbl['slice'] * 2).astype(str) + '-' + ((tbl['slice'] * 2) + 1).astype(str)
 
         # add another column goes from 0 to 2 and repeats until the last one
-        tbl['slice_type'] = tbl.groupby('tech_code').cumcount() % num_types
+        tbl['slice_type'] = tbl.groupby(['tech_code', 'type']).cumcount() % num_types
         tbl['slice_type'] = tbl['slice_type'].apply(lambda x: slice_types[x])
 
         tables_dict[key] = Helper.reorder_dataframe(tbl)
