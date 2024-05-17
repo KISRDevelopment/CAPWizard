@@ -108,7 +108,7 @@ $$=w_{RG}^{*}\left(320+Cost(G \rightarrow R)\right)$$
 
 where $w_{RG}^{*} = w_{RG}^{\textrm{diesel}}+w_{RG}^{\textrm{HFO}}$. After some algebriac manipulation, we get:
 
-$$Cost(G \rightarrow R)=\frac{w_{GR}\left(50+320w_{RG}^{*}\right)}{1-w_{GR}w_{RG}^{*}}$$
+$$Cost(G \rightarrow R)=\frac{w_{GR}\left(50+320w_{RG}^{\ast}\right)}{1-w_{GR}w_{RG}^{\ast}}$$
 
 So $Cost(R \xrightarrow{\textrm{diesel}} G) = 255\$$.  
 
