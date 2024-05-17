@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+### [v20240518] - 2024-05-18
+- Fix issue in slice numbering in LDR.
+
+
 ### [v20240516] - 2024-05-16
 - Include technology inputs in LDR cin file generator to be processed.
 

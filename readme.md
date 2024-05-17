@@ -6,7 +6,7 @@
 
 ## Version
 
-Current Version: v20240516
+Current Version: v20240518
 
 ## Overview
 
@@ -182,7 +182,7 @@ For developers and advanced users:
 
 ## What's New
 
-For details on the latest updates and changes in CAPWizard for IAEA MESSAGE, please see the [change log](CHANGELOG.md) file.
+For details on the latest updates and changes in CAPWizard for IAEA MESSAGE, please see the [change log](changelog.md) file.
 
 ## License
 
