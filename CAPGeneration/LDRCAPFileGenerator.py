@@ -14,7 +14,7 @@ def build_eqn(ldr_df, row, ldr_type):
 
         if row['type'] == 'main input':
             if ldr_type in ['moutp','demand']:
-                e += f"{row['full_code']}:inp"
+                e += f"{row['full_code']}:inp * {ldr_row['value']:.6f} / {ldr_row['ts_length']:.6f}"
             else:
                 e += f"{row['full_code']}......{ldr_row['ts_code']}:inp / {ldr_row['ts_length']:.6f}"
         elif row['type'] == 'main output':
@@ -46,7 +46,7 @@ def LDR_eqn(adb_df, ldr_df, tech_ldc_df, row, season):
     ldr_type = adb_df['ldr_type'].iloc[0] if adb_df.shape[0] != 0 else np.nan
 
     if ldr_type == 'demand':
-        energy_code = str(row['form_code']) + '-' + str(row['level_code'])
+        energy_code = str(row['mout_code']) + '-' + str(row['mout_lvl_code'])
         tech_ldc_df = tech_ldc_df[tech_ldc_df['key'] == energy_code].reset_index(drop=True)
     else:
         tech_ldc_df = tech_ldc_df[tech_ldc_df['tech_code'] == row['tech_code']].reset_index(drop=True)
