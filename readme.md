@@ -131,9 +131,9 @@ To perform the cost calculation described above, these four nodes should be expl
 
 To do this, we assume that the contribution of a producer node (R or I) to a consumer node's demand for a fuel (G or T) is equal to the producer's relative production share of that fuel: 
 
-$$u_{AB}^{F}=\frac{\mathrm{Prod}_{A}^{F}}{\sum_{i}\mathrm{Prod}_{i}^{F}} \times \mathrm{Demand}_{B}^{F}$$
+$$u_{AB}^{F}=\frac{\operatorname{Prod}_{A}^{F}}{\sum_{i}\operatorname{Prod}_{i}^{F}}\times\operatorname{Demand}_{B}^{F}$$
 
-where $u_{AB}^{F}$ is the number of units of $F$ supplied from $A$ to $B$, $\mathrm{Prod}_{A}^{F}$ is how much node $A$ produces of fuel $F$, and $\mathrm{Demand}_{B}^{F}$ is how much node $B$ demands of fuel $F$. The refinery and import nodes' relative shares are $\frac{100}{120} = 0.83$ and $\frac{20}{120} = 0.17$, respectively. Therefore, the refinery supplies the generator and transport nodes with $0.83 \times 40 = 33.3$ and $0.83 \times 80 = 66.67$ Toe, respectively. 
+where $u_{AB}^{F}$ is the number of units of $F$ supplied from $A$ to $B$, $\operatorname{Prod}_{A}^{F}$ is how much node $A$ produces of fuel $F$, and $\operatorname{Demand}_{B}^{F}$ is how much node $B$ demands of fuel $F$. The refinery and import nodes' relative shares are $\frac{100}{120} = 0.83$ and $\frac{20}{120} = 0.17$, respectively. Therefore, the refinery supplies the generator and transport nodes with $0.83 \times 40 = 33.3$ and $0.83 \times 80 = 66.67$ Toe, respectively. 
 
 In the cost calculation examples earlier, the reader might have noticed that the absolute number of units across each link is unimportant; it is their relative weight $w_{ab}$ that's required.
 We can get those weights by normalizing the outgoing edges from each node, across all fuels: 
