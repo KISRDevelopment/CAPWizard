@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ### [v20240518] - 2024-05-18
+- Fix issue in LDR cin file equation generator to handle special case when type is 'main input' and technology is connected to 'demand'.
 - Fix issue in slice numbering in LDR.
 
 
