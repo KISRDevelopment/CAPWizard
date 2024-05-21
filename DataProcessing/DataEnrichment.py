@@ -47,6 +47,10 @@ def enrich_with_ldr(tables_dict, ldr_df):
 
     ldr_df['extra_join_code'] = ldr_df['ts_code'].astype(str)
     for key in tables_dict:
+        # Check if 'extra_join_code' column exists and all its values are NaN
+        if 'extra_join_code' in tables_dict[key].columns and tables_dict[key]['extra_join_code'].isna().all():
+            tables_dict[key] = tables_dict[key].drop(columns=['extra_join_code'])
+
         if 'extra_join_code' in list(tables_dict[key].columns):
             merged_df = pd.merge(
                 tables_dict[key].astype({'extra_join_code': str}),
