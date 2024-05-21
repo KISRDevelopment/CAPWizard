@@ -77,22 +77,22 @@ def main():
             results.extend(calculate_costs(As_normed, As, temp_V, temp_F, tech_to_idx, fuel_to_idx, sc, yr))
 
     df = Convertor.create_cost_dataframe(results)
-    df['per_unit_USD_per_MWh'] = (df.total_cost_USD/df.units_MWyr)/8760
+    df['USD_per_MWh'] = (df.total_cost_USD/df.units_MWyr)/8760
     df[['total_cost_USD', 'units_MWyr']] = df[['total_cost_USD', 'units_MWyr']].astype(float).round(3)
-    df[['per_unit_USD_per_MWh']] = df[['per_unit_USD_per_MWh']].astype(float).round(8)
+    df[['USD_per_MWh']] = df[['USD_per_MWh']].astype(float).round(8)
     df.to_csv('src_dst_costs.csv')
-    df.drop('per_unit_USD_per_MWh', axis=1, inplace=True)
+    df.drop('USD_per_MWh', axis=1, inplace=True)
 
     df1 = df.copy().groupby(['sheet', 'year', 'src_tech_code', 'src_activity_code', 'level', 'form'])[['total_cost_USD', 'units_MWyr']].sum().reset_index()
-    df1['per_unit_USD_per_MWh'] = (df1.total_cost_USD/df1.units_MWyr)/8760
+    df1['USD_per_MWh'] = (df1.total_cost_USD/df1.units_MWyr)/8760
     df1[['total_cost_USD', 'units_MWyr']] = df1[['total_cost_USD', 'units_MWyr']].astype(float).round(3)
-    df1[['per_unit_USD_per_MWh']] = df1[['per_unit_USD_per_MWh']].astype(float).round(8)
+    df1[['USD_per_MWh']] = df1[['USD_per_MWh']].astype(float).round(8)
     df1.to_csv('src_costs.csv')
 
     df2 = df.copy().groupby(['sheet', 'year', 'dst_tech_code', 'dst_activity_code', 'level', 'form'])[['total_cost_USD', 'units_MWyr']].sum().reset_index()
-    df2['per_unit_USD_per_MWh'] = (df2.total_cost_USD/df2.units_MWyr)/8760
+    df2['USD_per_MWh'] = (df2.total_cost_USD/df2.units_MWyr)/8760
     df2[['total_cost_USD', 'units_MWyr']] = df2[['total_cost_USD', 'units_MWyr']].astype(float).round(3)
-    df2[['per_unit_USD_per_MWh']] = df2[['per_unit_USD_per_MWh']].astype(float).round(8)
+    df2[['USD_per_MWh']] = df2[['USD_per_MWh']].astype(float).round(8)
     df2.to_csv('dst_costs.csv')
 
     # print(df)
