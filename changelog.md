@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+### [v20240521] - 2024-05-21
+- Add sensitivity to better identify demand forms in src_dst_costs, src_costs, dst_costs sheets.
+- Increase number of digits in rounding of values in src_dst_costs, src_costs, dst_costs sheets.
+- Rename column per_unit_USD_per_MWh in src_dst_costs, src_costs, dst_costs sheets to be USD_per_MWh.
+
+
 ### [v20240518] - 2024-05-18
 - Fix issue in LDR cin file equation generator to handle special case when type is 'main input' and technology is connected to 'demand'.
 - Fix issue in slice numbering in LDR.
