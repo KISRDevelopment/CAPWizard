@@ -49,17 +49,18 @@ def create_inp_out(result_df: pd.DataFrame):
 
     # Add resource and demand nodes to balance the matrix
     diff = np.sum(output_matrix - input_matrix, axis=0)
+    sensitivity = 0.1
     out_rows = []
     in_rows = []
     new_keys = []
     for i, d in enumerate(diff):
-        if d < 0:
+        if d < sensitivity:
             v = np.zeros(len(diff))
             in_rows.append(v.copy())
             v[i] = -d
             out_rows.append(v)
             new_keys.append("%s_resource" % idx_to_fuel[i])
-        elif d > 0:
+        elif d > sensitivity:
             v = np.zeros(len(diff))
             out_rows.append(v.copy())
             v[i] = d
