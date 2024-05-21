@@ -6,12 +6,13 @@ import DataProcessing.DataCleaning as Cleaner
 import ADBProcessing.ADBProcessor as ADB
 import Utils.Helper as Helper
 import ResultsProcessing.ResultsProcessor as ResultsProcessor
+import CostCalculator.CostProcessor as Coster
 
 from CAPGeneration.TechCAPFileGenerator import Tech_CAP_generation_process
 from CAPGeneration.LDRCAPFileGenerator import LDR_CAP_generation_process
 
 
-def result_process(adb_filepath, tmpt_filepath, to_interpolate, tech_result_file=None, ldr_result_file=None, to_export=True, output_filename='Processed_results', output_dir=''):
+def result_process(adb_filepath, tmpt_filepath, to_interpolate, tech_result_file=None, ldr_result_file=None, with_cost=False, to_export=True, output_filename='Processed_results', output_dir=''):
     tech_file = pd.ExcelFile(tech_result_file) if tech_result_file else None
     ldr_file = pd.ExcelFile(ldr_result_file) if ldr_result_file else None
     slice_types = DataIO.read_file(tmpt_filepath, 'Slices')
@@ -28,6 +29,10 @@ def result_process(adb_filepath, tmpt_filepath, to_interpolate, tech_result_file
             print(f'\tProcessing sheet: {sheet}')
             processed_tables = ResultsProcessor.process_result_sheet(tech_file, sheet, tmpt_df, slice_types, adb_df, ldr_df, is_interpolate=to_interpolate, is_LDR=False)
             combined_sheets = Helper.combine_sheets(combined_sheets, processed_tables, sheet)
+
+    if with_cost:
+        print('Processing Cost Calculation')
+        combined_sheets = Coster.embed_costs(combined_sheets, tmpt_df)
 
     if ldr_file:
         print('Processing LDR Results')
@@ -56,8 +61,9 @@ if __name__ == "__main__":
     result_process(adb_filepath='Adb_file.adb',
                    tmpt_filepath='Template.xlsx',
                    to_interpolate=False,
-                   tech_result_file=None,
+                   tech_result_file='Raw_Tech_results.xlsx',
                    ldr_result_file='Raw_LDR_results.xlsx',
+                   with_cost=True,
                    to_export=True,
                    output_filename='Processed_results',
                    output_dir=Helper.get_desktop_path())
