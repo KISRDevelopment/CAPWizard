@@ -12,11 +12,13 @@ Current Version: v20240521
 
 CAP Wizard for IAEA MESSAGE is a multifaceted tool developed to streamline result processing and overcome challenges in processing results from the IAEA MESSAGE tool. It offers a suite of modules, each targeting specific issues encountered by IAEA MESSAGE users. While the interactive mode in IAEA MESSAGE addresses some limitations of the CAP program, the interactive mode’s capabilities for analyzing results are restricted. CAP Wizard leverages the IAEA MESSAGE CAP program and addresses known calculation challenges, such as discrepancies in total installed capacity and fixed costs, particularly when plant lifespans don't align with the study years of the model.
 
-The first module of CAP Wizard focuses on generating special Tech and LDR `cin` files, which need to be placed within the `data` folder of the model folder. At this model the user should run along with CAP to generate the results. The results can be found within the `res` folder that is contained in the model folder and are named `LDR_CAP_adb.tab` and `Tech_CAP_adb.tab`. These results from these files can be copied into MS Excel using text import wizard function of Excel. Once imported into Excel these files, CAP Wizard further processes the outputs and enriches the results with data beyond what is available from MESSAGE interactive outputs by using the ADB database file from the model in its second module for processing the results. It further enhances the results by a customizable template MS Excel file, enabling users to tailor the tool to their specific model requirements. For instance, users can add generation types to technologies in the model, allowing for more detailed filtering in the processed results. Furthermore, CAP Wizard uniquely supports LDR results processing and introduces a novel approach to cost calculations in a special module, detailed in the cost calculation section.
+The first module of CAP Wizard focuses on generating special Tech and LDR `cin` files, which need to be placed within the `data` folder of the model folder. At this model the user should run along with CAP to generate the results. The results can be found within the `res` folder that is contained in the model folder and are named `LDR_CAP_adb.tab` and `Tech_CAP_adb.tab`. These results from these files can be copied into MS Excel using text import wizard function of Excel. Once imported into Excel these files, CAP Wizard further processes the outputs and enriches the results with data beyond what is available from MESSAGE interactive outputs by using the ADB database file from the model in its second module for processing the results. It further enhances the results by a customizable template MS Excel file, enabling users to tailor the processed results from the tool to their specific requirements. For instance, users can add generation types to technologies in the model, allowing for more detailed filtering in the processed results. Furthermore, CAP Wizard uniquely supports LDR results processing and introduces a novel approach to cost calculations in a special module, detailed in the cost calculation section.
 
 The processed result file is generated and outputted as an MS Excel file, facilitating more analysis and visualization, including the use of pivot tables with extensive filtering options. This makes the processed results the main file for results analysis and visualization.
 
 A [demo case](Demo_Case) has been added for a reference to showcase how `Cap Wizard` works which is a modification of demo_case5 that is built in with MESSAGE.
+
+## Usage
 
 The streamlined workflow for running a model and analyzing results is as follows:
 
@@ -27,7 +29,7 @@ The streamlined workflow for running a model and analyzing results is as follows
 5. **Run CAP**: Execute CAP in IAEA MESSAGE.
 6. **Results Conversion**: Import results 
     <ol type="a">
-        <li>Go to folder for the model containing and open the subfolder titled <code>res</code>.</li>
+        <li>Go to folder for the model containing and open the subfolder named <code>res</code>.</li>
         <li>Open <code>Tech_CAP_adb.tab</code> and <code>LDR_CAP_adb.tab</code> and copy the results from these files.</li>
         <li>Paste into Excel using the MS Excel text import wizard. The delimiter is usually a space or a tab character.</li>
         <li>Save the file where necessary.</li>
@@ -166,14 +168,6 @@ For developers and advanced users:
 
 - The source code is open-sourced for those who wish to tailor or extend the application.
 - Python environment setup and dependencies are documented for development purposes.
-
-
-## Usage
-
-1. **Select ADB File**: Browse and select the desired ADB file for CAP file generation or result processing.
-2. **Set Parameters**: Input required parameters such as the number of runs for simulations.
-3. **Generate CAP Files**: Use the 'Generate Tech CAP' or 'Generate LDR CAP' buttons to create capacity files, which are then used in MESSAGE.
-4. **Process Simulation Outputs**: Import MESSAGE simulation results into Excel, fill in the template file, and use CAPWizard to process these results for detailed analysis.
 
 ## Packaging for Developers
 
