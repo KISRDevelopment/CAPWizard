@@ -1,7 +1,9 @@
 import pandas as pd
 import numpy as np 
-from CostCalculation import calculate_costs
-import TopologyConvertor as Convertor
+from CostCalculator.CostCalculation import calculate_costs
+import CostCalculator.TopologyConvertor as Convertor
+import DataProcessing.DataEnrichment as Enricher
+import Utils.DataIO as DataIO
 
 def main():
 
@@ -43,10 +45,15 @@ def main():
     ])
     V = np.array([100, 200, 300, 50, 400, 0])
 
+    # Specify file paths
+    results_file_path = 'Processed_results.xlsx'
+    template_file_path = 'Template.xlsx'
+    
     # Read Excel file
-    result_df = pd.read_excel('./Processed_results.xlsx', sheet_name='Tech_in_out')
-    V_df = pd.read_excel('./Processed_results.xlsx', sheet_name='Variable_cost')
-    F_df = pd.read_excel('./Processed_results.xlsx', sheet_name='Fixed_cost')
+    tmpt_df = DataIO.read_template_file(template_file_path)
+    result_df = pd.read_excel(results_file_path, sheet_name='Tech_in_out')
+    V_df = pd.read_excel(results_file_path, sheet_name='Variable_cost')
+    F_df = pd.read_excel(results_file_path, sheet_name='Fixed_cost')
 
     result_df['value'] = result_df['value'].abs()
 
@@ -75,21 +82,32 @@ def main():
             As_normed, As = Convertor.to_network(input_table, output_table)
 
             results.extend(calculate_costs(As_normed, As, temp_V, temp_F, tech_to_idx, fuel_to_idx, sc, yr))
+        #     break
+        # break
 
     df = Convertor.create_cost_dataframe(results)
+    df = Enricher.enrich_df_with_template(df, tmpt_df, prefix='src')
+    df = Enricher.enrich_df_with_template(df, tmpt_df,  prefix='dst')
+
+    cols_to_move = ['total_cost_USD','units_MWyr']
+    ordered_cols = [col for col in df.columns if col not in cols_to_move] + cols_to_move
+    df = df[ordered_cols]
+
     df['USD_per_MWh'] = (df.total_cost_USD/df.units_MWyr)/8760
     df[['total_cost_USD', 'units_MWyr']] = df[['total_cost_USD', 'units_MWyr']].astype(float).round(3)
     df[['USD_per_MWh']] = df[['USD_per_MWh']].astype(float).round(8)
     df.to_csv('src_dst_costs.csv')
     df.drop('USD_per_MWh', axis=1, inplace=True)
 
-    df1 = df.copy().groupby(['sheet', 'year', 'src_tech_code', 'src_activity_code', 'level', 'form'])[['total_cost_USD', 'units_MWyr']].sum().reset_index()
+    groupby_cols = [c for c in list(df.columns) if not (c.startswith('dst_') or c in ['total_cost_USD', 'units_MWyr'])]
+    df1 = df.copy().groupby(groupby_cols, dropna=False)[['total_cost_USD', 'units_MWyr']].sum().reset_index()
     df1['USD_per_MWh'] = (df1.total_cost_USD/df1.units_MWyr)/8760
     df1[['total_cost_USD', 'units_MWyr']] = df1[['total_cost_USD', 'units_MWyr']].astype(float).round(3)
     df1[['USD_per_MWh']] = df1[['USD_per_MWh']].astype(float).round(8)
     df1.to_csv('src_costs.csv')
 
-    df2 = df.copy().groupby(['sheet', 'year', 'dst_tech_code', 'dst_activity_code', 'level', 'form'])[['total_cost_USD', 'units_MWyr']].sum().reset_index()
+    groupby_cols = [c for c in list(df.columns) if not (c.startswith('src_') or c in ['total_cost_USD', 'units_MWyr'])]
+    df2 = df.copy().groupby(groupby_cols, dropna=False)[['total_cost_USD', 'units_MWyr']].sum().reset_index()
     df2['USD_per_MWh'] = (df2.total_cost_USD/df2.units_MWyr)/8760
     df2[['total_cost_USD', 'units_MWyr']] = df2[['total_cost_USD', 'units_MWyr']].astype(float).round(3)
     df2[['USD_per_MWh']] = df2[['USD_per_MWh']].astype(float).round(8)
