@@ -139,7 +139,7 @@ def process_results(root, progress_bar, progress_label, time_label, tech_results
             msg = f'Processing Cost Calculation...'
             print(msg)
             PBar.update_progress_bar(progress_bar, progress_label, time_label, start_stage_progress, 100, msg, start_time)
-            combined_sheets = Coster.embed_costs(combined_sheets, cost_progress_callback)
+            combined_sheets = Coster.embed_costs(combined_sheets, tmpt_df, cost_progress_callback)
 
         if ldr_file:
             stage_index += 1
