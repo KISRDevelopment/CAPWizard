@@ -2,23 +2,35 @@ import pandas as pd
 import Utils.Helper as Helper
 
 
+def enrich_df_with_template(df, tmpt_df, prefix=None):
+    tmpt_df = tmpt_df.drop(['minp_level', 'minp_form'], axis=1)
+    tech_code = f'{prefix + "_" if prefix else ""}tech_code'
+
+    # Rename columns of tmpt_df to add prefix if provided
+    if prefix:
+        tmpt_df = tmpt_df.rename(columns={col: f"{prefix}_{col}" for col in tmpt_df.columns if col != 'tech_code'})
+
+    # Apply the function to extract the base tech code
+    df[f'clean_{tech_code}'] = df[tech_code].apply(Helper.extract_base_tech_code)
+    # Perform a left join to keep all rows from df
+    df = pd.merge(left=df, right=tmpt_df, left_on=f'clean_{tech_code}', right_on='tech_code', how='left')
+    # Rename merged columns and remove the unnecessary columns
+    df = df.drop([f'clean_{tech_code}'], axis=1)
+    if tech_code == 'tech_code':
+        df = df.rename({'tech_code_x': 'tech_code'}, axis=1)
+        df = df.drop(['tech_code_y'], axis=1)
+    else:
+        df = df.drop(['tech_code'], axis=1)
+    # Reorder DataFrame as necessary
+    df = Helper.reorder_dataframe(df)
+    return df
+
+
 def enrich_with_template(tables_dict, tmpt_df):
     tables_dict = tables_dict.copy()
-    columns_to_add = ['tech_activity', 'tech_status', 'tech_name']
 
     for key in tables_dict:
-        # Enrich with network_db data
-        for col in columns_to_add:
-            lookup = dict(zip(tmpt_df['tech_code'], tmpt_df[col]))
-            tables_dict[key] = tables_dict[key].copy()
-            tables_dict[key].insert(1, col, tables_dict[key]['tech_code'])
-            tables_dict[key][col] = tables_dict[key][col].apply(Helper.extract_base_tech_code)
-            tables_dict[key].loc[:, col] = tables_dict[key][col].replace(lookup)
-
-        # Enrich with gen_type
-        insert_idx = tables_dict[key].columns.get_loc('tech_activity')
-        gen_type_map = dict(zip(tmpt_df['tech_name'], tmpt_df['gen_type']))
-        tables_dict[key].insert(insert_idx + 1, 'gen_type', tables_dict[key]['tech_name'].map(gen_type_map))
+        tables_dict[key] = enrich_df_with_template(tables_dict[key].copy(), tmpt_df)
 
     return tables_dict
 
