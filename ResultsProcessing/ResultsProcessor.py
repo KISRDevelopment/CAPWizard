@@ -11,8 +11,8 @@ def process_result_sheet(filepath, sheet, tmpt_df, slice_types, adb_df, ldr_df, 
     tables_dict = Transformer.process_tables(tables_list=tables_list)
     clean_tables_dict = Transformer.handle_duplicate_year_specified_data(tables_dict)
     template_enriched_tables_dict = Enricher.enrich_with_template(clean_tables_dict, tmpt_df)
-    adb_enriched_tables_dict = Enricher.enrich_with_adb(adb_df=adb_df, tables_dict=template_enriched_tables_dict)
-    ldr_enriched_tables_dict = Enricher.enrich_with_ldr(ldr_df=ldr_df, tables_dict=adb_enriched_tables_dict)
+    adb_enriched_tables_dict = Enricher.enrich_with_adb(tables_dict=template_enriched_tables_dict, adb_df=adb_df)
+    ldr_enriched_tables_dict = Enricher.enrich_with_ldr(tables_dict=adb_enriched_tables_dict, ldr_df=ldr_df)
     enriched_tables_dict = Transformer.handle_impexp(ldr_enriched_tables_dict)
 
     if is_interpolate:
