@@ -157,15 +157,17 @@ def insert_technology_code(adb_df):
     return adb_df
 
 
-def extract_adb_time_steps(adb_df, nrun):
+def extract_adb_time_steps(adb_df, nrun=None):
     adb_df = adb_df.copy()
     adb_df = extract_rows_between_markers(adb_df, start_marker='drate:', end_marker='loadregions:')
     adb_df = adb_df.drop([0,1], axis=1).dropna(axis=1).reset_index(drop=True).T.reset_index(drop=True)
-    return adb_df[:nrun+1]
-
+    if nrun:
+        return adb_df[:nrun+1]
+    else:
+        return adb_df
 
 def extract_adb_plant_life(adb_df):
-    cols = extract_adb_time_steps(adb_df, 100)[0].tolist()
+    cols = extract_adb_time_steps(adb_df)[0].tolist()
     adb_df = adb_df.copy()
     adb_df = extract_rows_between_markers(adb_df, start_marker='systems:', end_marker='resources:')
     adb_df = adb_df.replace(['#', '*'], np.nan)
