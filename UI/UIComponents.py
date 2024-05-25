@@ -222,7 +222,6 @@ def create_ui(root):
                                                                                                    with_cost_var),
                                      state=ttk.NORMAL if not GlobalState.is_process_running else ttk.DISABLED)
 
-
     template_frame.pack(side=ttk.TOP, padx=10, pady=5, fill='x', expand=True)
     tech_results_frame.pack(side=ttk.TOP, padx=10, pady=5, fill='x', expand=True)
     ldr_results_frame.pack(side=ttk.TOP, padx=10, pady=5, fill='x', expand=True)
@@ -236,7 +235,6 @@ def create_ui(root):
     # Seperator between sections
     sep_line = ttk.Separator()
     sep_line.pack(pady= 5, fill="x", expand=True)
-
 
     # Progress Bar and Timer
     progress_frame = ttk.Frame(root)
