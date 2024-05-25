@@ -65,7 +65,7 @@ if __name__ == "__main__":
     
     Tech_CAP_generation_process(adb_filepath=adb_filepath, nrun=nrun, output_dir=Helper.get_desktop_path())
 
-    LDR_CAP_generation_process(adb_filepath=adb_filepath, output_dir=Helper.get_desktop_path())
+    LDR_CAP_generation_process(adb_filepath=adb_filepath, nrun=nrun, output_dir=Helper.get_desktop_path())
 
     result_process(adb_filepath=adb_filepath,
                    tmpt_filepath=tmpt_filepath,

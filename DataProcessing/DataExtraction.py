@@ -97,6 +97,22 @@ def extract_adb_energy_forms(adb_df):
     return adb_df.reset_index(drop=True)
 
 
+def extract_tech_fyear(adb_df):
+    adb_df = adb_df.copy()
+    adb_df = extract_rows_between_markers(adb_df, start_marker='systems:', end_marker='resources:')
+    adb_df = adb_df.replace(['#', '*'], np.nan)
+    adb_df = adb_df.dropna(axis=1, how='all')
+    # Filter the df to hold only the systems and their fyear
+    adb_df = adb_df[(~adb_df[0].isna()) | adb_df[1].isin(['fyear'])]
+    adb_df = adb_df.iloc[:, :3]  # keep only lookup info instead of actual value
+    # fill the first column with the name and when its a mode of operation then take the name and put the mode of operation between []
+    adb_df.iloc[:, 0].ffill(inplace=True)
+    adb_df = adb_df[adb_df[1] == 'fyear']  # Keep only data related to fyear
+    adb_df = adb_df[[0,2]]
+    adb_df.columns = ['tech_code', 'fyear']
+    return adb_df.copy()
+
+
 def extract_adb_systems(adb_df):
     adb_df = adb_df.copy()
     adb_df=extract_rows_between_markers(adb_df, start_marker='systems:', end_marker='resources:')

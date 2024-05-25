@@ -5,6 +5,7 @@ import DataProcessing.DataExtraction as Extractor
 import DataProcessing.DataEnrichment as Enricher
 import DataProcessing.DataCleaning as Cleaner
 import Utils.DataIO as DataIO
+import Utils.Helper as Helper
 import os
 
 def build_eqn(ldr_df, row, ldr_type):
@@ -57,17 +58,28 @@ def LDR_eqn(adb_df, ldr_df, tech_ldc_df, row, season):
     return build_eqn(ldr_df, row, ldr_type)
 
 
-def LDR_CAP_generation_process(adb_filepath, output_dir='', cin_file_name = 'LDR_CAP'):
+def LDR_CAP_generation_process(adb_filepath, nrun, output_dir='', cin_file_name = 'LDR_CAP'):
     # Read ADB
     adb_df = DataIO.read_adb_file(adb_filepath)
     ldr_df = Extractor.extract_load_region(adb_df)
     tech_ldc_df = Extractor.extract_tech_load_curves(adb_df)
     demand_codes = Extractor.extract_demand_codes(adb_df)
+    tech_fyear = Extractor.extract_tech_fyear(adb_df)
+    last_tstep_year = Extractor.extract_adb_time_steps(adb_df).iloc[nrun-1][0]
     adb_df = Cleaner.clean_up_adb(adb_df)
     adb_df = Enricher.apply_demand_ldr_type_on_adb(adb_df, demand_codes)
 
     # Filter only the technologies that has LDR
     adb_df = adb_df[adb_df['hasldr']]
+
+    # Filter techs where fyear is beyond study period
+    tech_out_of_period = tech_fyear[tech_fyear['fyear'] > last_tstep_year]
+
+    # Extract base tech code and checl if it is in tech out of period list
+    is_in_out_of_period = adb_df['tech_code'].apply(Helper.extract_base_tech_code).isin(tech_out_of_period['tech_code'])
+
+    # Drop the rows where base tech code is in out of period tech codes
+    adb_df = adb_df[~is_in_out_of_period]
 
     seasons = sorted(ldr_df['season'].unique())
     cap = []

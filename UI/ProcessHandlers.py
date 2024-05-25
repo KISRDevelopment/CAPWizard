@@ -35,9 +35,11 @@ def generate_tech_cap(root, progress_bar, progress_label, time_label, start_time
     time_thread = threading.Thread(target=PBar.update_time_elapsed, args=(time_label, start_time, stop_event))
     time_thread.start()
 
+    nrun = int(nrun)
+
     try:
         PBar.update_progress_bar(progress_bar, progress_label, time_label, 0, 100, 'Generating Tech CAP', start_time)
-        TechCAP.Tech_CAP_generation_process(adb_filepath, int(nrun), output_dir)
+        TechCAP.Tech_CAP_generation_process(adb_filepath, nrun, output_dir)
     except Exception as e:
         # Stop the time update thread on error
         stop_event.set()
@@ -61,16 +63,18 @@ def generate_tech_cap(root, progress_bar, progress_label, time_label, start_time
     UIComp.enable_buttons(root)
 
 
-def generate_ldr_cap(root, progress_bar, progress_label, time_label, start_time, adb_filepath, output_dir):
+def generate_ldr_cap(root, progress_bar, progress_label, time_label, start_time, adb_filepath, nrun, output_dir):
     start_time = time.time()
     stop_event = threading.Event()
     # Start the time update thread
     time_thread = threading.Thread(target=PBar.update_time_elapsed, args=(time_label, start_time, stop_event))
     time_thread.start()
 
+    nrun = int(nrun)
+
     try:
         PBar.update_progress_bar(progress_bar, progress_label, time_label, 0, 100, 'Generating LDR CAP', start_time)
-        LDRCAP.LDR_CAP_generation_process(adb_filepath, output_dir)
+        LDRCAP.LDR_CAP_generation_process(adb_filepath, nrun, output_dir)
     except Exception as e:
         # Stop the time update thread on error
         stop_event.set()
@@ -220,19 +224,19 @@ def start_generate_tech_cap(root, progress_bar, progress_label, time_label, adb_
     threading.Thread(target=generate_tech_cap, args=(root, progress_bar, progress_label, time_label, time.time(), adb_filepath, nrun, output_dir,), daemon=True).start()
 
 
-def start_generate_ldr_cap(root, progress_bar, progress_label, time_label, adb_filepath, output_dir):
+def start_generate_ldr_cap(root, progress_bar, progress_label, time_label, adb_filepath, nrun, output_dir):
     if GlobalState.is_process_running:
         return  # Exit if another process is running
 
-    if not InpValidator.validate_required_strings([adb_filepath, output_dir]):
-        Messagebox.show_error(title="Validation Error", message="Please ensure the ADB file and output directory are selected.")
+    if not InpValidator.validate_required_strings([adb_filepath, output_dir]) or not InpValidator.validate_nrun(nrun):
+        Messagebox.show_error(title="Validation Error", message="Please ensure the ADB file is selected, nrun is a positive integer, and the output directory is selected.")
         return
 
     # Disable buttons and set flag
     UIComp.disable_buttons(root)
     GlobalState.is_process_running = True
 
-    threading.Thread(target=generate_ldr_cap, args=(root, progress_bar, progress_label, time_label, time.time(), adb_filepath, output_dir,), daemon=True).start()
+    threading.Thread(target=generate_ldr_cap, args=(root, progress_bar, progress_label, time_label, time.time(), adb_filepath, nrun, output_dir,), daemon=True).start()
 
 
 def start_result_processing_thread(root, progress_bar, progress_label, time_label, tech_results_entry, ldr_results_entry, template_entry, adb_entry, nrun, output_dir_entry, output_filename_entry, interpolate_var, with_cost_var):
