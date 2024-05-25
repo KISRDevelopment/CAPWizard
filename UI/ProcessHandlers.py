@@ -41,6 +41,9 @@ def generate_tech_cap(root, progress_bar, progress_label, time_label, start_time
         error_message = f"An error occurred:\n{traceback.format_exc()}"
         root.after(0, show_error_message, error_message)
         PBar.update_progress_bar(progress_bar, progress_label, time_label, 0, 100, 'Error in generating Tech CAP', start_time)
+        # when error, reset the flag and re-enable buttons
+        GlobalState.is_process_running = False
+        UIComp.enable_buttons(root)
         raise(e)
 
     # Stop the time update thread when processing is done
@@ -70,6 +73,9 @@ def generate_ldr_cap(root, progress_bar, progress_label, time_label, start_time,
         error_message = f"An error occurred:\n{traceback.format_exc()}"
         root.after(0, show_error_message, error_message)
         PBar.update_progress_bar(progress_bar, progress_label, time_label, 0, 100, 'Error in generating LDR CAP', start_time)
+        # when error, reset the flag and re-enable buttons
+        GlobalState.is_process_running = False
+        UIComp.enable_buttons(root)
         raise(e)
 
     # Stop the time update thread when processing is done
@@ -176,6 +182,9 @@ def process_results(root, progress_bar, progress_label, time_label, tech_results
         error_message = f"An error occurred:\n{traceback.format_exc()}"
         root.after(0, show_error_message, error_message)
         PBar.update_progress_bar(progress_bar, progress_label, time_label, 0, 100, 'Error in processing results', start_time)
+        # when error, reset the flag and re-enable buttons
+        GlobalState.is_process_running = False
+        UIComp.enable_buttons(root)
         raise(e)
 
     # Stop the time update thread when processing is done
