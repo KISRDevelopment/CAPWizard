@@ -20,6 +20,10 @@ from UI import InputValidation as InpValidator
 from UI import UIComponents as UIComp
 from UI import GlobalState
 
+def show_success_message(success_message):
+    Messagebox.show_info(title="Process Completed", message=success_message)
+
+
 def show_error_message(error_message):
     Messagebox.show_error(title="Process Error", message=error_message)
 
@@ -50,6 +54,7 @@ def generate_tech_cap(root, progress_bar, progress_label, time_label, start_time
     stop_event.set()
     time_thread.join()
     PBar.update_progress_bar(progress_bar, progress_label, time_label, 100, 100, 'Completed generating Tech CAP', start_time)
+    root.after(0, show_success_message, 'Completed generating Tech CAP')
 
     # At the end of the function, reset the flag and re-enable buttons
     GlobalState.is_process_running = False
@@ -82,6 +87,7 @@ def generate_ldr_cap(root, progress_bar, progress_label, time_label, start_time,
     stop_event.set()
     time_thread.join()
     PBar.update_progress_bar(progress_bar, progress_label, time_label, 100, 100, 'Completed generating LDR CAP', start_time)
+    root.after(0, show_success_message, 'Completed generating LDR CAP')
 
     # At the end of the function, reset the flag and re-enable buttons
     GlobalState.is_process_running = False
@@ -191,6 +197,7 @@ def process_results(root, progress_bar, progress_label, time_label, tech_results
     stop_event.set()
     time_thread.join()
     PBar.update_progress_bar(progress_bar, progress_label, time_label, 100, 100, 'Completed processing results', start_time)
+    root.after(0, show_success_message, 'Completed processing results')
     print('\nCompleted!')
 
     # At the end of the function, reset the flag and re-enable buttons
