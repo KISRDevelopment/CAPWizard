@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [v20240525] - 2024-05-25
+- Process new sheet 'Investments_annualized_cost' which calculates investments for new installation for each study year over the plant life.
+- Fix a bug in LDR CAP in rare cases when fyear is set to be beyond the study period.
+- Fix a bug that prevented buttons from being enabled when an error occurs.
+- Show message box when process completes
+
+
 ### [v20240522] - 2024-05-22
 - Remove empty LDR columns which were included in different sheets.
 - Enhanced template excel file merging into results to dynamically include non-default columns.

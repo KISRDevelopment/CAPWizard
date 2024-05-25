@@ -11,7 +11,7 @@ import requests
 import threading
 import webbrowser
 
-APP_VERSION = 'v20240522'
+APP_VERSION = 'v20240525'
 
 def select_file(entry):
     file_obj = askopenfile()
@@ -132,6 +132,7 @@ def create_ui(root):
                                                                                                   progress_label,
                                                                                                   time_label,
                                                                                                   adb_entry.get(),
+                                                                                                  nrun_entry.get(),
                                                                                                   output_dir_entry.get()),
                                         state=ttk.NORMAL if not GlobalState.is_process_running else ttk.DISABLED)
     root.generate_tech_button = ttk.Button(cap_frame,
