@@ -30,10 +30,10 @@ def Tech_CAP_generation_process(adb_filepath, nrun, output_dir='', cin_file_name
                 {
                     # some the hist cap to the value of the pll corresponding to this year, if year is old then get the first year in pll df
                     'start_year': r['year'],
-                    'end_year': r['year'] + (adb_pll_df[adb_pll_df['year'] == adb_pll_df['year'].get(r['year'], adb_pll_df['year'].min())]['value'].values[0] if len(adb_pll_df) != 0 else default_pll),
+                    'end_year': r['year'] + (adb_pll_df[adb_pll_df['year'] == adb_pll_df['year'].get(r['year'], adb_pll_df['year'].min())]['pll'].values[0] if len(adb_pll_df) != 0 else default_pll),
                     'value': r['value']
                 }
-                if ((len(adb_pll_df[adb_pll_df['year'] == adb_pll_df['year'].get(r['year'], adb_pll_df['year'].min())]['value']) != 0) if len(adb_pll_df) != 0 else True)
+                if ((len(adb_pll_df[adb_pll_df['year'] == adb_pll_df['year'].get(r['year'], adb_pll_df['year'].min())]['pll']) != 0) if len(adb_pll_df) != 0 else True)
                 else {'year': np.nan, 'value': np.nan}
                 
                 for _, r in adb_histcap_df.iterrows()
@@ -56,7 +56,7 @@ def Tech_CAP_generation_process(adb_filepath, nrun, output_dir='', cin_file_name
             for j, inner_tstep in adb_tstep_df[:idx+1].iterrows():
                 # I am at tstep, based on pll at each inner_tstep, exclude inner tstep if its pll has retired
                 if len(adb_pll_df) != 0:
-                    pll_value = adb_pll_df[adb_pll_df['year'] == inner_tstep[0]]['value'].values[0]
+                    pll_value = adb_pll_df[adb_pll_df['year'] == inner_tstep[0]]['pll'].values[0]
                 else:
                     pll_value = default_pll
                 inner_tstep_end_year = inner_tstep[0] + pll_value
@@ -83,10 +83,10 @@ def Tech_CAP_generation_process(adb_filepath, nrun, output_dir='', cin_file_name
                 {
                     # some the hist cap to the value of the pll corresponding to this year, if year is old then get the first year in pll df
                     'start_year': r['year'],
-                    'end_year': r['year'] + (adb_pll_df[adb_pll_df['year'] == adb_pll_df['year'].get(r['year'], adb_pll_df['year'].min())]['value'].values[0] if len(adb_pll_df) != 0 else default_pll),
+                    'end_year': r['year'] + (adb_pll_df[adb_pll_df['year'] == adb_pll_df['year'].get(r['year'], adb_pll_df['year'].min())]['pll'].values[0] if len(adb_pll_df) != 0 else default_pll),
                     'value': r['value']
                 }
-                if ((len(adb_pll_df[adb_pll_df['year'] == adb_pll_df['year'].get(r['year'], adb_pll_df['year'].min())]['value']) != 0) if len(adb_pll_df) != 0 else True)
+                if ((len(adb_pll_df[adb_pll_df['year'] == adb_pll_df['year'].get(r['year'], adb_pll_df['year'].min())]['pll']) != 0) if len(adb_pll_df) != 0 else True)
                 else {'year': np.nan, 'value': np.nan}
                 
                 for _, r in adb_histcap_df.iterrows()
@@ -109,7 +109,7 @@ def Tech_CAP_generation_process(adb_filepath, nrun, output_dir='', cin_file_name
             for j, inner_tstep in adb_tstep_df[:idx+1].iterrows():
                 # I am at tstep, based on pll at each inner_tstep, exclude inner tstep if its pll has retired
                 if len(adb_pll_df) != 0:
-                    pll_value = adb_pll_df[adb_pll_df['year'] == inner_tstep[0]]['value'].values[0]
+                    pll_value = adb_pll_df[adb_pll_df['year'] == inner_tstep[0]]['pll'].values[0]
                 else:
                     pll_value = default_pll
                 inner_tstep_end_year = inner_tstep[0] + pll_value

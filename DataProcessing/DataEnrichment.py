@@ -114,6 +114,23 @@ def apply_demand_ldr_type_on_adb(adb_df, demand_codes):
     return adb_df
 
 
+def merge_pll_with_tstep_period_column(new_inv_df, adb_pll_df, adb_full_tstep_df, nrun):
+    new_inv_df = pd.merge(new_inv_df, adb_pll_df, on=['year', 'tech_code'])
+    
+    next_tstep_year = adb_full_tstep_df.iloc[nrun][0]
+
+    # Calculate 'period' as the year difference within each group
+    new_inv_df['period'] = new_inv_df.groupby(['tech_code'])['year'].transform(lambda x: x.shift(-1) - x)
+
+    # Handling the last element in each group
+    last_indices = new_inv_df.groupby(['tech_code'])['year'].tail(1).index
+    new_inv_df.loc[last_indices, 'period'] = next_tstep_year - new_inv_df.loc[last_indices, 'year']
+
+    new_inv_df['value'] = new_inv_df['value'].astype('float64')
+    new_inv_df['period'] = new_inv_df['period'].astype('float64')
+
+    return new_inv_df
+
 
 def add_units_column(tables_dict):
     tables_dict = tables_dict.copy()
@@ -124,6 +141,7 @@ def add_units_column(tables_dict):
         'New_installed_cap': 'MW',
         'Investments_per_unit': 'USD/kW',
         'Investments_for_new_installations': 'kUSD',
+        'Investments_annualized_cost': 'kUSD',
         'Variable_cost_per_unit_of_output': 'USD/kWyr',
         'Variable_cost': 'kUSD',
         'Fixed_cost_per_unit_of_output': 'USD/kW/yr',

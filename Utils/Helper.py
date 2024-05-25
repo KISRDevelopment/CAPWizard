@@ -14,6 +14,34 @@ def extract_base_tech_code(tech_code):
     return re.sub(r'\[\d+(\.\d+)?\.\]', '', tech_code)
 
 
+def insert_after_key(original_dict, new_entry, after_key):
+    """
+    Insert a new key-item pair into a dictionary after a specified key.
+
+    :param original_dict: The original dictionary.
+    :param new_entry: A dictionary with one key-item pair to be inserted.
+    :param after_key: The key after which the new entry should be inserted.
+    :return: A new dictionary with the new entry inserted after the specified key.
+    """
+    if after_key not in original_dict:
+        raise ValueError("The key after which to insert the new entry does not exist.")
+
+    new_dict = {}
+    inserted = False
+
+    for key, value in original_dict.items():
+        new_dict[key] = value
+        if key == after_key:
+            new_dict.update(new_entry)
+            inserted = True
+
+    # If the after_key is the last key in the original dict
+    if not inserted:
+        new_dict.update(new_entry)
+
+    return new_dict
+
+
 def reorder_dataframe(df):
     # Separate string columns and year columns
     string_cols = []

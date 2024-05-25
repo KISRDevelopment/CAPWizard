@@ -74,6 +74,48 @@ def calc_tech_balance(tables_dict, sheet_name='Tech_balance'):
         return tables_dict
 
 
+def annualize_inv_costs(df):
+    # Create a copy to avoid modifying the original dataframe during iteration
+    result_df = df.copy()
+    result_df['value'] = 0.0  # Reset all values to zero to start fresh
+
+    # Loop over each unique 'tech_code'
+    for _, sub_df in df.groupby(['tech_code']):
+        # Loop through each row in the subgroup
+        for idx, row in sub_df.iterrows():
+            if row['value'] != 0:
+                # Calculate the annualized value
+                annual_value = row['value'] / row['pll']
+                # Get the range of years to spread this value
+                start_year = row['year']
+                end_year = start_year + int(row['pll'])
+                
+                # Apply this value to all fully covered years
+                full_years_mask = (result_df['tech_code'] == row['tech_code']) & \
+                                  (result_df['year'] >= start_year) & (result_df['year'] < end_year)
+                result_df.loc[full_years_mask, 'value'] += annual_value * result_df.loc[full_years_mask, 'period']
+                # print(result_df[full_years_mask])
+
+                # Handle fractional years at the end of the pll
+                next_year = result_df[(result_df['tech_code'] == row['tech_code']) & 
+                                      (result_df['year'] >= end_year)].min()['year']
+                previous_year = result_df[(result_df['tech_code'] == row['tech_code']) & 
+                                          (result_df['year'] < end_year)].max()['year']
+                
+                if pd.notna(next_year) and pd.notna(previous_year) and next_year != end_year:
+                    # Apply fractional values
+                    prev_mask = (result_df['tech_code'] == row['tech_code']) & (result_df['year'] == previous_year)
+                    # next_mask = (result_df['tech_code'] == row['tech_code']) & (result_df['year'] == next_year)
+                    # print(next_year, end_year, previous_year, start_year, annual_value)
+                    result_df.loc[prev_mask, 'value'] -= annual_value * (next_year-end_year)
+                    # result_df.loc[next_mask, 'value'] -= annual_value * (end_year-previous_year)
+
+    
+    result_df.drop(['pll','period'], axis=1, inplace=True)
+    
+    return result_df
+
+
 #TODO: Make generalized
 def handle_gas_network_own_use(df, yr_cols):
     for col in yr_cols:

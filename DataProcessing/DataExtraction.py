@@ -186,7 +186,7 @@ def extract_adb_plant_life(adb_df):
             adb_df[str(i)] = np.nan
     adb_df = adb_df.ffill(axis=1)
     adb_df.columns = ['tech_code'] + cols
-    adb_df = adb_df.melt(id_vars='tech_code', var_name='year', value_name='value')
+    adb_df = adb_df.melt(id_vars='tech_code', var_name='year', value_name='pll')
     adb_df['year'] = adb_df['year'].astype(int)
     return adb_df
 

@@ -134,3 +134,22 @@ def transform_tables(df_dict):
             trf_df[tbl] = df_dict[tbl].melt(id_vars=cols, var_name="year", value_name="value")
 
     return trf_df
+
+
+def inverse_transform_table(df):
+    # Identify the original ID columns, which are all columns except 'year' and 'value'
+    id_vars = [col for col in df.columns if col not in ['year', 'value']]
+
+    df[id_vars] = df[id_vars].fillna('')
+
+    # Pivot the table back to wide format
+    pivoted_tbl = df.pivot_table(index=id_vars, columns='year', values='value', aggfunc='first').reset_index()
+
+    # Flatten the hierarchical column headers
+    # The new column names will be the 'year' values for data columns, and the original id_var names for index columns
+    pivoted_tbl.columns = [col if isinstance(col, str) or isinstance(col, int) else col[1] for col in pivoted_tbl.columns.values]
+
+    # Convert empty strings back to NaN to preserve data integrity
+    pivoted_tbl.replace('', np.nan, inplace=True)
+
+    return pivoted_tbl

@@ -215,6 +215,7 @@ def create_ui(root):
                                                                                                    ldr_results_entry,
                                                                                                    template_entry,
                                                                                                    adb_entry,
+                                                                                                   nrun_entry.get(),
                                                                                                    output_dir_entry,
                                                                                                    output_filename_entry,
                                                                                                    interpolate_var,

@@ -82,7 +82,7 @@ def generate_ldr_cap(root, progress_bar, progress_label, time_label, start_time,
     UIComp.enable_buttons(root)
 
 
-def process_results(root, progress_bar, progress_label, time_label, tech_results_entry, ldr_results_entry, template_entry, adb_entry, output_dir_entry, output_filename_entry, interpolate_var, with_cost_var):
+def process_results(root, progress_bar, progress_label, time_label, tech_results_entry, ldr_results_entry, template_entry, adb_entry, nrun, output_dir_entry, output_filename_entry, interpolate_var, with_cost_var):
     start_time = time.time()
     stop_event = threading.Event()
     # Start the time update thread
@@ -97,6 +97,7 @@ def process_results(root, progress_bar, progress_label, time_label, tech_results
     output_filename = output_filename_entry.get()
     to_interpolate = interpolate_var.get()
     with_cost = with_cost_var.get()
+    nrun = int(nrun)
 
     to_export = True
     num_stages = 3 if tech_result_filepath and ldr_result_filepath else 2
@@ -113,6 +114,8 @@ def process_results(root, progress_bar, progress_label, time_label, tech_results
         tmpt_df = DataIO.read_template_file(tmpt_filepath)
         adb_df = DataIO.read_adb_file(adb_filepath)
         ldr_df = Extractor.extract_load_region(adb_df)
+        adb_full_tstep_df = Extractor.extract_adb_time_steps(adb_df)
+        adb_pll_df = Extractor.extract_adb_plant_life(adb_df)
         adb_df = Cleaner.clean_up_adb(adb_df)
         adb_df = ADB.process_adb(adb_df, tmpt_df)
         combined_sheets = {}
@@ -124,7 +127,7 @@ def process_results(root, progress_bar, progress_label, time_label, tech_results
                 msg = f'Processing Tech: {sheet}'
                 print(msg)
                 PBar.update_progress_bar(progress_bar, progress_label, time_label, stage_progress, 100, msg, start_time)
-                processed_tables = ResultsProcessor.process_result_sheet(tech_file, sheet, tmpt_df, slice_types, adb_df, ldr_df, is_interpolate=to_interpolate, is_LDR=False)
+                processed_tables = ResultsProcessor.process_result_sheet(tech_file, sheet, tmpt_df, slice_types, adb_df, ldr_df, adb_pll_df, adb_full_tstep_df, nrun, is_interpolate=to_interpolate, sheet_type='TECH')
                 combined_sheets = Helper.combine_sheets(combined_sheets, processed_tables, sheet)
 
         def cost_progress_callback(current, total, sheet, year):
@@ -152,7 +155,7 @@ def process_results(root, progress_bar, progress_label, time_label, tech_results
                 msg = f'Processing LDR: {sheet}'
                 print(msg)
                 PBar.update_progress_bar(progress_bar, progress_label, time_label, overall_progress, 100, msg, start_time)
-                processed_tables = ResultsProcessor.process_result_sheet(ldr_file, sheet, tmpt_df, slice_types, adb_df, ldr_df, is_interpolate=to_interpolate, is_LDR=True)
+                processed_tables = ResultsProcessor.process_result_sheet(ldr_file, sheet, tmpt_df, slice_types, adb_df, ldr_df, adb_pll_df, adb_full_tstep_df, nrun, is_interpolate=to_interpolate, sheet_type='LDR')
                 for key in processed_tables:
                     # processed_tables[key] = processed_tables[key][processed_tables[key]['year'] == 2040]  # for testing only limit LDR to 1 year
                     combined_sheets[f'{sheet}_{key}_LDR'] = processed_tables[key]
@@ -216,7 +219,7 @@ def start_generate_ldr_cap(root, progress_bar, progress_label, time_label, adb_f
     threading.Thread(target=generate_ldr_cap, args=(root, progress_bar, progress_label, time_label, time.time(), adb_filepath, output_dir,), daemon=True).start()
 
 
-def start_result_processing_thread(root, progress_bar, progress_label, time_label, tech_results_entry, ldr_results_entry, template_entry, adb_entry, output_dir_entry, output_filename_entry, interpolate_var, with_cost_var):
+def start_result_processing_thread(root, progress_bar, progress_label, time_label, tech_results_entry, ldr_results_entry, template_entry, adb_entry, nrun, output_dir_entry, output_filename_entry, interpolate_var, with_cost_var):
     if GlobalState.is_process_running:
         return  # Exit if another process is running
 
@@ -236,6 +239,10 @@ def start_result_processing_thread(root, progress_bar, progress_label, time_labe
     if with_cost_selected and not tech_results_provided:
         missing_entries.append("Tech Results (required for Cost Calculation)")
 
+    # Check if 'tech_results_provided' but not nrun
+    if tech_results_provided and not InpValidator.validate_nrun(nrun):
+        missing_entries.append("nrun (required for processing tech results)")
+
     if missing_entries or not (tech_results_provided or ldr_results_provided):
         error_message = "Please ensure the following requirements are met:\n"
         if missing_entries:
@@ -250,4 +257,4 @@ def start_result_processing_thread(root, progress_bar, progress_label, time_labe
     UIComp.disable_buttons(root)
     GlobalState.is_process_running = True
 
-    threading.Thread(target=process_results, args=(root, progress_bar, progress_label, time_label, tech_results_entry, ldr_results_entry, template_entry, adb_entry, output_dir_entry, output_filename_entry, interpolate_var, with_cost_var), daemon=True).start()
+    threading.Thread(target=process_results, args=(root, progress_bar, progress_label, time_label, tech_results_entry, ldr_results_entry, template_entry, adb_entry, nrun, output_dir_entry, output_filename_entry, interpolate_var, with_cost_var), daemon=True).start()
