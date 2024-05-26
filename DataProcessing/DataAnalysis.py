@@ -75,6 +75,11 @@ def calc_tech_balance(tables_dict, sheet_name='Tech_balance'):
 
 
 def annualize_inv_costs(df):
+    df = df.copy()
+    # There is a lag between installation of capacity and operation of the plant.
+    # Therefore, it would be more representative to shift the investment cost by one period
+    df['value'] = df.groupby(['tech_code'])['value'].shift().fillna(0)
+
     # Create a copy to avoid modifying the original dataframe during iteration
     result_df = df.copy()
     result_df['value'] = 0.0  # Reset all values to zero to start fresh
