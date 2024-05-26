@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+
+### [v20240526] - 2024-05-26
+- Added lag of one period calculation of annualized investments cost since there is a lag between installation of capacity and operation of the plant.
+
+
 ### [v20240525] - 2024-05-25
 - Process new sheet 'Investments_annualized_cost' which calculates investments for new installation for each study year over the plant life.
 - Fix a bug in LDR CAP in rare cases when fyear is set to be beyond the study period.
