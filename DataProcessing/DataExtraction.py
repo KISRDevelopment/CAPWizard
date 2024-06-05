@@ -30,7 +30,7 @@ def extract_load_region(adb_df):
     result = []
     for idx in ldr_names.index:
         for col in ldr_names.columns:
-            if ldr_names.at[idx, col] == '\\':
+            if ldr_names.at[idx, col] == '\\' or pd.isna(ldr_names.at[idx, col]):
                 continue
             result.append({
                 'season': idx+1,
