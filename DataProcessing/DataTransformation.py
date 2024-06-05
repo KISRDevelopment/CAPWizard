@@ -63,7 +63,7 @@ def handle_duplicate_year_specified_data(tables_dict):
                         new_rows_list.append(new_row)
                     prev_tech_code = r['tech_code']
                     new_row = {'tech_code': r['tech_code'], 'adb_join_code': r['adb_join_code']}
-                new_row[int(r['extra_join_code'])] = r[int(r['extra_join_code'])]
+                new_row[int(float(r['extra_join_code']))] = r[int(float(r['extra_join_code']))]
             tables_dict[key] = pd.DataFrame(new_rows_list)
     return tables_dict
 
