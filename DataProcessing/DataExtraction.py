@@ -81,6 +81,7 @@ def extract_demand_codes(adb_df):
 def extract_adb_energy_forms(adb_df):
     adb_df = adb_df.copy()
     adb_df=extract_rows_between_markers(adb_df, start_marker='energyforms:', end_marker='demand:')
+    adb_df = adb_df[(adb_df[0] != '#') & (adb_df[1] != '#')]
     adb_df=adb_df.dropna(axis=1, how='all')
     adb_df = adb_df.replace(['#', '*'], np.nan)
     adb_df=adb_df.dropna(axis=0, how='all')
