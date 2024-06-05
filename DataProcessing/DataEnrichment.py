@@ -79,19 +79,36 @@ def enrich_with_ldr(tables_dict, ldr_df):
 def embed_LDR_hour_and_type(tables_dict, slice_types):
     tables_dict = tables_dict.copy()
     slice_types = slice_types.iloc[:,0].tolist()
-    num_types = len(slice_types)
+    num_types = len(slice_types) if len(slice_types) > 0 else 1
 
     for key in tables_dict:
         tbl = tables_dict[key].copy()
 
         # for each tech_code in tbl, add an index column so that I have it numbered
         tbl['slice'] = (tbl.groupby(['tech_code', 'type']).cumcount() / num_types).astype(int)
-        tbl['slice_time'] = (tbl['slice'] * 2).astype(str) + '-' + ((tbl['slice'] * 2) + 1).astype(str)
+        
+        season_sum = tbl.groupby(['tech_code', 'type'])['ts_length'].sum().iloc[0]
+        tbl['hr_length'] = (tbl['ts_length'] / season_sum * 24 * num_types).round(2)
+        tbl = tbl[~tbl['hr_length'].isna()].copy()  # Temp fix, why there is NaN in the first place coming from LDR Cap generation
 
-        # add another column goes from 0 to 2 and repeats until the last one
-        tbl['slice_type'] = tbl.groupby(['tech_code', 'type']).cumcount() % num_types
-        tbl['slice_type'] = tbl['slice_type'].apply(lambda x: slice_types[x])
+        # Calculate slice_time for each slice index
+        slice_times = {}
+        cumulative_hours = 0
 
+        # Compute slice_time start and end times for each slice
+        for slice_index in sorted(tbl['slice'].unique()):
+            slice_hr_length = int(tbl[tbl['slice'] == slice_index]['hr_length'].iloc[0])
+            slice_times[slice_index] = (cumulative_hours, cumulative_hours + slice_hr_length - 1)
+            cumulative_hours += slice_hr_length
+
+        # Apply slice_time to the table
+        tbl['slice_time'] = tbl['slice'].map(lambda x: f"{slice_times[x][0]}-{slice_times[x][1]}")
+
+        if len(slice_types) > 0:
+            # add another column goes from 0 to 2 and repeats until the last one
+            tbl['slice_type'] = tbl.groupby(['tech_code', 'type']).cumcount() % num_types
+            tbl['slice_type'] = tbl['slice_type'].apply(lambda x: slice_types[x])
+        
         tables_dict[key] = Helper.reorder_dataframe(tbl)
     return tables_dict
 
