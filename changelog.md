@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 
 
+### [v20240605] - 2024-06-05
+- Fix issue in CAP generation in cases where energy forms in MESSAGE have comments
+
+
 ### [v20240526] - 2024-05-26
 - Added lag of one period calculation of annualized investments cost since there is a lag between installation of capacity and operation of the plant.
 

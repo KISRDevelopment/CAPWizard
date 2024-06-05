@@ -11,7 +11,7 @@ import requests
 import threading
 import webbrowser
 
-APP_VERSION = 'v20240526'
+APP_VERSION = 'v20240605'
 
 def select_file(entry):
     file_obj = askopenfile()
