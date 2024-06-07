@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 
 
+### [v20240607] - 2024-06-07
+- Fix issue when seasons have different number of time slices.
+- Fix issue that occurs in casting of some values (extra_join_code column).
+- Dynamic handling for slices in LDR to determine slice_time correctly and add hr_length column.
+
+
 ### [v20240605] - 2024-06-05
 - Fix issue in CAP generation in cases where energy forms in MESSAGE have comments
 
