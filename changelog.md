@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+### [v20241113] - 2024-11-13
+- Fix issue when form_code or level_code are integer values.
+- Upgrade requests package due to vulnerability in the previous version.
+
 
 ### [v20240607] - 2024-06-07
 - Fix issue when seasons have different number of time slices.
