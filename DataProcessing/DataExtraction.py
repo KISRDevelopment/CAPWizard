@@ -94,7 +94,7 @@ def extract_adb_energy_forms(adb_df):
     adb_df = adb_df[adb_df[2].notna()]  # Drop the level row (its going to have a NaN in column 2)
     adb_df[3] = adb_df[3].apply(lambda x: not pd.isna(x))
     adb_df.columns = ['level', 'form', 'form_code', 'hasldr', 'level_code']
-    adb_df['fuel_code'] = adb_df['form_code'] + '-' + adb_df['level_code']  # Create the coding for the energy
+    adb_df['fuel_code'] = adb_df['form_code'].astype(str) + '-' + adb_df['level_code'].astype(str)  # Create the coding for the energy
     return adb_df.reset_index(drop=True)
 
 
