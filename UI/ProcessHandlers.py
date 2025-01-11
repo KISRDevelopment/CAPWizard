@@ -1,10 +1,12 @@
 from ttkbootstrap.constants import *
-from ttkbootstrap.dialogs.dialogs import Messagebox
+from ttkbootstrap.dialogs.dialogs import MessageDialog, Messagebox
+from ttkbootstrap.icons import Icon
 
 import time
 import pandas as pd
 import threading
 import traceback
+import pyperclip
 import CAPGeneration.TechCAPFileGenerator as TechCAP
 import CAPGeneration.LDRCAPFileGenerator as LDRCAP
 import ResultsProcessing.ResultsProcessor as ResultsProcessor
@@ -23,10 +25,21 @@ from UI import GlobalState
 def show_success_message(success_message):
     Messagebox.show_info(title="Process Completed", message=success_message)
 
+def show_error_message(short_error_message, full_error_message):
+    dialog = MessageDialog(
+        message=short_error_message,
+        title="Process Error",
+        parent=None,
+        buttons=["OK:primary", "Copy:secondary"],
+        icon=Icon.error,
+        alert=True,
+        localize=True,
+    )
+    dialog.show()
 
-def show_error_message(error_message):
-    Messagebox.show_error(title="Process Error", message=error_message)
-
+    # Handle button response
+    if dialog.result == "Copy":
+        pyperclip.copy(full_error_message)
 
 def generate_tech_cap(root, progress_bar, progress_label, time_label, start_time, adb_filepath, nrun, output_dir):
     start_time = time.time()
@@ -44,8 +57,9 @@ def generate_tech_cap(root, progress_bar, progress_label, time_label, start_time
         # Stop the time update thread on error
         stop_event.set()
         time_thread.join()
-        error_message = f"An error occurred:\n{traceback.format_exc()}"
-        root.after(0, show_error_message, error_message)
+        full_error_message = f"An error occurred:\n{traceback.format_exc()}"
+        short_error_message = ''.join(traceback.format_exception_only(type(e), e)).strip()
+        root.after(0, show_error_message, short_error_message, full_error_message)
         PBar.update_progress_bar(progress_bar, progress_label, time_label, 0, 100, 'Error in generating Tech CAP', start_time)
         # when error, reset the flag and re-enable buttons
         GlobalState.is_process_running = False
@@ -79,8 +93,9 @@ def generate_ldr_cap(root, progress_bar, progress_label, time_label, start_time,
         # Stop the time update thread on error
         stop_event.set()
         time_thread.join()
-        error_message = f"An error occurred:\n{traceback.format_exc()}"
-        root.after(0, show_error_message, error_message)
+        full_error_message = f"An error occurred:\n{traceback.format_exc()}"
+        short_error_message = ''.join(traceback.format_exception_only(type(e), e)).strip()
+        root.after(0, show_error_message, short_error_message, full_error_message)
         PBar.update_progress_bar(progress_bar, progress_label, time_label, 0, 100, 'Error in generating LDR CAP', start_time)
         # when error, reset the flag and re-enable buttons
         GlobalState.is_process_running = False
@@ -189,8 +204,9 @@ def process_results(root, progress_bar, progress_label, time_label, tech_results
         # Stop the time update thread on error
         stop_event.set()
         time_thread.join()
-        error_message = f"An error occurred:\n{traceback.format_exc()}"
-        root.after(0, show_error_message, error_message)
+        full_error_message = f"An error occurred:\n{traceback.format_exc()}"
+        short_error_message = ''.join(traceback.format_exception_only(type(e), e)).strip()
+        root.after(0, show_error_message, short_error_message, full_error_message)
         PBar.update_progress_bar(progress_bar, progress_label, time_label, 0, 100, 'Error in processing results', start_time)
         # when error, reset the flag and re-enable buttons
         GlobalState.is_process_running = False
