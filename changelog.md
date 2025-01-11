@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [v20250110] - 2025-01-10
+- Replace error traceback message with short error message with exception only.
+- Added check for tech result and LDR result file extension.
+- Added copy button for the full traceback error in the error message box.
+- Update requirements to a newer version of pandas and pyinstaller.
+
+
 ### [v20241115] - 2024-11-15
 - Fix issue when form_code or level_code are integer values in another function.
 

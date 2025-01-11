@@ -6,7 +6,7 @@
 
 ## Version
 
-Current Version: v20241115
+Current Version: v20250110
 
 ## Overview
 
@@ -172,7 +172,7 @@ For developers and advanced users:
 ## Packaging for Developers
 
 - Use `package_app.py` to package your modified version of the application.
-- On macOS, ensure `create_dmg` is installed for `.dmg` file creation.
+- On macOS, ensure [`create_dmg`](https://github.com/sindresorhus/create-dmg) is installed for `.dmg` file creation.
 
 ## What's New
 
