@@ -271,6 +271,40 @@ def start_result_processing_thread(root, progress_bar, progress_label, time_labe
     ldr_results_provided = ldr_results_entry.get().strip()
     with_cost_selected = with_cost_var.get()
 
+    # Validate file extensions for Tech Results and LDR Results
+    invalid_files = []
+    tab_files_detected = []
+
+    # Validate Tech Results
+    if tech_results_provided:
+        if not tech_results_provided.lower().endswith(('.xlsx', '.xls', '.tab')):
+            invalid_files.append("Tech Results must be a valid Excel file (.xlsx or .xls)")
+        elif tech_results_provided.lower().endswith('.tab'):
+            tab_files_detected.append("Tech Results")
+
+    # Validate LDR Results
+    if ldr_results_provided:
+        if not ldr_results_provided.lower().endswith(('.xlsx', '.xls', '.tab')):
+            invalid_files.append("LDR Results must be a valid Excel file (.xlsx or .xls)")
+        elif ldr_results_provided.lower().endswith('.tab'):
+            tab_files_detected.append("LDR Results")
+
+    # Build the error message
+    if invalid_files or tab_files_detected:
+        error_message = ""
+        if invalid_files:
+            error_message += "Please ensure the following requirements are met:\n- " + "\n- ".join(invalid_files)
+        if tab_files_detected:
+            if error_message:
+                error_message += "\n"  # Add a gap if there are previous messages
+            error_message += "The following files are in .tab format:\n- " + "\n- ".join(tab_files_detected)
+            error_message += ("\nNote: Convert these files to Excel by opening them in any text editor, "
+                              "copying the content, and importing it into MS Excel using the import text wizard, "
+                              "then saving it.")
+
+        Messagebox.show_error(title="Validation Error", message=error_message)
+        return
+    
     # Check if 'with_cost' is selected but Tech CAP results are not provided
     if with_cost_selected and not tech_results_provided:
         missing_entries.append("Tech Results (required for Cost Calculation)")
