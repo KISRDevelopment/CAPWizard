@@ -159,12 +159,12 @@ def extract_adb_systems(adb_df):
 
 
 def insert_technology_code(adb_df):
-    adb_df['mout_code'] = adb_df.apply(lambda row: row['form_code'] if row['type'] == 'main output' else np.NaN, axis=1)
+    adb_df['mout_code'] = adb_df.apply(lambda row: row['form_code'] if row['type'] == 'main output' else np.nan, axis=1)
     adb_df['mout_code'] = adb_df.groupby('tech_code')['mout_code'].ffill().bfill()
-    adb_df['minp_code'] = adb_df.apply(lambda row: row['form_code'] if row['type'] == 'main input' else np.NaN, axis=1)
+    adb_df['minp_code'] = adb_df.apply(lambda row: row['form_code'] if row['type'] == 'main input' else np.nan, axis=1)
     adb_df['minp_code'] = adb_df.groupby('tech_code')['minp_code'].ffill()
     adb_df['minp_code'] = adb_df.groupby('tech_code')['minp_code'].bfill()
-    adb_df['mout_lvl_code'] = adb_df.apply(lambda row: row['level_code'] if row['type'] == 'main output' else np.NaN, axis=1)
+    adb_df['mout_lvl_code'] = adb_df.apply(lambda row: row['level_code'] if row['type'] == 'main output' else np.nan, axis=1)
     adb_df['mout_lvl_code'] = adb_df.groupby('tech_code')['mout_lvl_code'].ffill().bfill()
 
     adb_df['full_code'] = adb_df['mout_lvl_code'].astype(str) +\

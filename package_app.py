@@ -12,14 +12,14 @@ def package_app():
         # Note: For MacOS, the separator in --add-data is a colon (:)
         os_command = f'pyinstaller --onefile --windowed --icon={icon_path} --add-data="{tk_logo_path}:Icon" --name={app_name} main.py'
         subprocess.run(os_command, shell=True)
-        # Create .dmg file
+        # Create .dmg file (https://github.com/sindresorhus/create-dmg)
         dmg_command = f'create-dmg "dist/{app_name}.app" --overwrite'
         subprocess.run(dmg_command, shell=True)
     elif sys.platform.startswith('win32') or sys.platform.startswith('cygwin'):
         # Windows
         icon_path = './Icon/Windows.ico'
         # Note: For Windows, the separator in --add-data is a semicolon (;)
-        os_command = f'pyinstaller --onefile --windowed --icon={icon_path} --add-data="{tk_logo_path};Icon" --name={app_name} main.py'
+        os_command = f'pyinstaller --target-arch X86_64 --onefile --windowed --icon={icon_path} --add-data="{tk_logo_path};Icon" --name={app_name} main.py'
         subprocess.run(os_command, shell=True)
     else:
         print("Unsupported OS")
